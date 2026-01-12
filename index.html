@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paulete | Gestión de Consorcios</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fuente de Google Fonts para un look profesional -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="logo-container">
+        <img src="images/logo.jpg" alt="Paulete" class="logo-img">
+    </div>
+
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="container">
+            <!-- Logo movido fuera del navbar para evitar conflictos de transform/fixed -->
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto" class="btn-reservar">Contacto</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Transparencia y Eficiencia en su Consorcio</h1>
+            <p>Administración profesional de propiedades enfocada en la tranquilidad de los vecinos y la valorización de su patrimonio.</p>
+            <a href="https://wa.me/5492214283399" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Consultar Ahora</a>
+        </div>
+    </header>
+
+    <!-- Servicios -->
+    <section id="servicios" class="section">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="card">
+                    <i class="fas fa-calculator card-icon"></i>
+                    <h3>Gestión Administrativa</h3>
+                    <p>Liquidación de expensas clara y puntual. Pago a proveedores y seguimiento de morosos con reportes mensuales.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-tools card-icon"></i>
+                    <h3>Mantenimiento</h3>
+                    <p>Control periódico de instalaciones. Gestión de reparaciones con proveedores de confianza y supervisión de obras.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-balance-scale card-icon"></i>
+                    <h3>Asesoría Legal</h3>
+                    <p>Cumplimiento de normativas vigentes, mediación de conflictos y asesoramiento en asambleas ordinarias y extraordinarias.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nosotros -->
+    <section id="nosotros" class="section bg-light">
+        <div class="container split-container">
+            <div class="text-block">
+                <h2 class="section-title text-left">Sobre Nosotros</h2>
+                <p>Somos un equipo dedicado a la administración de consorcios con más de 10 años de experiencia. Entendemos que cada edificio es único, por lo que ofrecemos soluciones personalizadas.</p>
+                <p>Nuestra prioridad es la transparencia en los números y la respuesta rápida ante las urgencias. Creemos en una comunicación fluida entre el administrador y los vecinos.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Atención personalizada 24/7 para urgencias</li>
+                    <li><i class="fas fa-check"></i> Plataforma online para ver expensas</li>
+                    <li><i class="fas fa-check"></i> Visitas periódicas al edificio</li>
+                </ul>
+            </div>
+            <div class="image-block">
+                <!-- Placeholder para imagen de oficina o edificio -->
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Edificio moderno">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="section">
+        <div class="container">
+            <h2 class="section-title">Contacto</h2>
+            <p class="section-subtitle">Estamos listos para administrar su edificio. Solicite su presupuesto.</p>
+            
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <a href="https://wa.me/5492214283399" target="_blank" class="info-item whatsapp-link">
+                        <i class="fab fa-whatsapp"></i>
+                        <h4>WhatsApp</h4>
+                        <p>+54 9 2214 28-3399</p>
+                    </a>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email</h4>
+                        <p>contacto@paulete.com</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4>Ubicación</h4>
+                        <p>La Plata, Buenos Aires</p>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Nombre completo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Teléfono">
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="Mensaje o consulta" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Paulete. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
