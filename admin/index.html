@@ -2,6 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <script>
+        // Fix para rutas relativas en hosting estático:
+        // Si la URL termina en "/admin" sin barra final, agregarla para que carguen bien los estilos
+        if (window.location.pathname.endsWith('/admin')) {
+            window.location.replace(window.location.href + '/');
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Bastons Paulete</title>
     <link rel="stylesheet" href="./admin-style.css">
@@ -27,11 +34,11 @@
                     <form id="loginForm" onsubmit="login(event)">
                         <div class="form-group">
                             <label>Usuario</label>
-                            <input type="text" id="loginEmail" required>
+                            <input type="text" id="loginEmail" required autocomplete="username">
                         </div>
                         <div class="form-group">
                             <label>Contraseña</label>
-                            <input type="password" id="loginPassword" required>
+                            <input type="password" id="loginPassword" required autocomplete="current-password">
                         </div>
                         <button type="submit" class="btn-primary">Ingresar</button>
                     </form>
