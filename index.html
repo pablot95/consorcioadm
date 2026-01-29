@@ -3,47 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paulete | Gestión de Consorcios</title>
+    <title>BASTONS PAULETE | Inmobiliaria</title>
+    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
     <link rel="stylesheet" href="style.css">
     <!-- Fuente de Google Fonts para un look profesional -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 </head>
 <body>
     <div class="logo-container">
-        <img src="images/logo.jpg" alt="Paulete" class="logo-img">
-    </div>
+        <img src="images/logo.jpg" alt="Bastons Paulete" class="logo-img">
+    </div> 
 
-    <!-- Navegación -->
-    <nav class="navbar">
-        <div class="container">
-            <!-- Logo movido fuera del navbar para evitar conflictos de transform/fixed -->
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#nosotros">Nosotros</a></li>
-                <li><a href="#contacto" class="btn-reservar">Contacto</a></li>
-            </ul>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
+    <!-- Barra de Contacto Superior -->
+    <div class="contact-bar">
+        <div class="contact-bar-content">
+            <p>Contáctanos</p>
+            <div class="contact-buttons">
+                <a href="https://wa.me/5492214283399" class="contact-btn roca" target="_blank">
+                    <i class="fab fa-whatsapp"></i> General Roca
+                </a>
+                <a href="https://wa.me/5492215766081" class="contact-btn laplata" target="_blank">
+                    <i class="fab fa-whatsapp"></i> La Plata
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
 
     <!-- Hero Section -->
     <header id="inicio" class="hero">
+        <!-- Carrusel de fondo -->
+        <div class="hero-carousel">
+            <div class="carousel-slide active">
+                <img src="images/hero.jpg" alt="Propiedad 1">
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Campo">
+            </div>
+        </div>
+        
         <div class="hero-content">
-            <h1>Transparencia y Eficiencia en su Consorcio</h1>
-            <p>Administración profesional de propiedades enfocada en la tranquilidad de los vecinos y la valorización de su patrimonio.</p>
-            <a href="https://wa.me/5492214283399" class="btn-primary" target="_blank"><i class="fab fa-whatsapp"></i> Consultar Ahora</a>
+            <h1 class="hero-title">BASTONS<br><span class="hero-title-indent">PAULETE</span></h1>
+            <p class="hero-subtitle">Segunda generación en gestiones inmobiliarias</p>
+            
+            <div class="hero-buttons">
+                <button class="hero-btn" data-action="alquilar">Alquilar</button>
+                <button class="hero-btn" data-action="comprar">Comprar</button>
+                <button class="hero-btn" data-action="vender">Vender</button>
+                <button class="hero-btn" data-action="administrar">Administrar</button>
+            </div>
+
+            <!-- Panel de Búsqueda Inline (Oculto por defecto) -->
+            <div class="search-panel-inline" id="searchPanel">
+                <div class="search-form-inline">
+                    <p class="search-instruction">Selecciona ubicación:</p>
+                    <!-- Selector de Región -->
+                    <div class="region-buttons">
+                        <button class="region-btn" data-region="roca">General Roca</button>
+                        <button class="region-btn" data-region="laplata">La Plata</button>
+                    </div>
+
+                    <!-- Tipo de Propiedad -->
+                    <select id="propertyType" class="search-select">
+                        <option value="">Tipo de Propiedad</option>
+                        <option value="casa">Casa</option>
+                        <option value="departamento">Departamento</option>
+                        <option value="terreno">Terreno</option>
+                        <option value="local">Local Comercial</option>
+                        <option value="chacra">Chacra</option>
+                        <option value="campo">Campo</option>
+                    </select>
+
+                    <!-- Ubicación (Dinámico según región) -->
+                    <select id="location" class="search-select" style="display: none;">
+                        <option value="">Ubicación</option>
+                    </select>
+
+                    <button class="btn-search" id="btnSearch">Buscar</button>
+                </div>
+            </div>
         </div>
     </header>
+
+    <!-- Sección de Propiedades -->
+    <section id="propiedades" class="section properties-section">
+        <div class="container">
+            
+            <!-- Selector de Ubicación -->
+            <div class="location-selector" id="locationSelector">
+                <button class="location-btn" data-location="roca">General Roca</button>
+                <button class="location-btn" data-location="laplata">La Plata</button>
+            </div>
+
+            <!-- Grid de Propiedades -->
+            <div class="properties-grid" id="propertiesGrid">
+                <!-- Las propiedades se cargarán dinámicamente desde JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Detalle de Propiedad Eliminado -->
+
+
+    <!-- Contenido Original: Gestión de Consorcios -->
+    <section id="consorcios" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Gestión de Consorcios</h2>
+            <p class="section-description">También ofrecemos servicios profesionales de administración de consorcios</p>
+        </div>
+    </section>
 
     <!-- Servicios -->
     <section id="servicios" class="section">
         <div class="container">
-            <h2 class="section-title">Nuestros Servicios</h2>
             <div class="services-grid">
                 <div class="card">
                     <i class="fas fa-calculator card-icon"></i>
@@ -88,52 +163,64 @@
     <section id="contacto" class="section">
         <div class="container">
             <h2 class="section-title">Contacto</h2>
-            <p class="section-subtitle">Estamos listos para administrar su edificio. Solicite su presupuesto.</p>
+            <p class="section-subtitle">Estamos listos para ayudarte. Selecciona tu ubicación.</p>
             
-            <div class="contact-wrapper">
-                <div class="contact-info">
-                    <a href="https://wa.me/5492214283399" target="_blank" class="info-item whatsapp-link">
-                        <i class="fab fa-whatsapp"></i>
-                        <h4>WhatsApp</h4>
-                        <p>+54 9 2214 28-3399</p>
-                    </a>
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <h4>Email</h4>
-                        <p>contacto@paulete.com</p>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h4>Ubicación</h4>
-                        <p>La Plata, Buenos Aires</p>
+            <div class="contact-sections">
+                <!-- General Roca -->
+                <div class="contact-region">
+                    <h3><i class="fas fa-map-marker-alt"></i> General Roca</h3>
+                    <div class="contact-info">
+                        <a href="https://wa.me/5492214283399" target="_blank" class="info-item whatsapp-link">
+                            <i class="fab fa-whatsapp"></i>
+                            <h4>WhatsApp</h4>
+                            <p>+54 9 221 428-3399</p>
+                        </a>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <h4>Email</h4>
+                            <p>roca@bastonspaul ete.com</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>Dirección</h4>
+                            <p>General Roca, Río Negro</p>
+                        </div>
                     </div>
                 </div>
 
-                <form class="contact-form" id="contactForm">
-                    <div class="form-group">
-                        <input type="text" placeholder="Nombre completo" required>
+                <!-- La Plata -->
+                <div class="contact-region">
+                    <h3><i class="fas fa-map-marker-alt"></i> La Plata</h3>
+                    <div class="contact-info">
+                        <a href="https://wa.me/5492215766081" target="_blank" class="info-item whatsapp-link">
+                            <i class="fab fa-whatsapp"></i>
+                            <h4>WhatsApp</h4>
+                            <p>+54 9 221 576-6081</p>
+                        </a>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <h4>Email</h4>
+                            <p>laplata@bastonspaulete.com</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>Dirección</h4>
+                            <p>La Plata, Buenos Aires</p>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Email" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" placeholder="Teléfono">
-                    </div>
-                    <div class="form-group">
-                        <textarea rows="5" placeholder="Mensaje o consulta" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary">Enviar Mensaje</button>
-                </form>
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Paulete. Todos los derechos reservados.</p>
+            <p>&copy; 2026 BASTONS PAULETE. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Bastons Paulete</title>
+    <link rel="stylesheet" href="admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1><i class="fas fa-building"></i> Panel Administrativo - Bastons Paulete</h1>
+            <div class="header-actions">
+                <a href="../index.html" class="btn-website" target="_blank" title="Ver sitio web">
+                    <i class="fas fa-globe"></i> Ver Sitio
+                </a>
+                <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <div class="admin-content">
+            <!-- Sección de Login -->
+            <div id="loginSection" class="login-section">
+                <div class="login-box">
+                    <h2>Iniciar Sesión</h2>
+                    <form id="loginForm" onsubmit="login(event)">
+                        <div class="form-group">
+                            <label>Usuario</label>
+                            <input type="text" id="loginEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Ingresar</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sección Principal (oculta hasta login) -->
+            <div id="mainSection" style="display: none;">
+                
+                <!-- Lista de Propiedades -->
+                <section class="properties-list-section">
+                    <h2>Propiedades Publicadas</h2>
+                    <div id="propertiesList" class="properties-list">
+                        <p class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando propiedades...</p>
+                    </div>
+                </section>
+
+                <!-- Formulario de Nueva Propiedad -->
+                <section class="form-section">
+                    <h2 id="formTitle">Nueva Propiedad</h2>
+                    <form id="propertyForm" onsubmit="saveProperty(event)">
+                        <input type="hidden" id="propertyId">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Dirección *</label>
+                                <input type="text" id="address" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipo de Propiedad *</label>
+                                <select id="type" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="Departamento">Departamento</option>
+                                    <option value="Casa">Casa</option>
+                                    <option value="Lote">Lote - Terreno</option>
+                                    <option value="Oficina">Oficina</option>
+                                    <option value="Chacra">Chacra</option>
+                                    <option value="Galpón">Galpón</option>
+                                    <option value="Edificio">Edificio</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Operación *</label>
+                                <select id="operationType" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="venta">Venta</option>
+                                    <option value="alquiler">Alquiler</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Región *</label>
+                                <select id="region" onchange="updateLocations()" required>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="roca">General Roca</option>
+                                    <option value="laplata">La Plata</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Localidad *</label>
+                                <select id="location" required>
+                                    <option value="">Primero seleccione región...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Moneda *</label>
+                                <select id="moneda" required>
+                                    <option value="ARS">ARS (Pesos)</option>
+                                    <option value="USD">USD (Dólares)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Precio *</label>
+                                <input type="text" id="price" placeholder="120.000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Dormitorios</label>
+                                <input type="number" id="bedrooms" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Baños</label>
+                                <input type="number" id="bathrooms" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Área Cubierta (m²)</label>
+                                <input type="number" id="area" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Terreno (m²)</label>
+                                <input type="number" id="landArea" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Antigüedad (años)</label>
+                                <input type="number" id="antiguedad" min="0" placeholder="Ej: 5">
+                                <small>Dejar vacío si es a estrenar</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Latitud *</label>
+                                <input type="number" step="any" id="lat" required placeholder="-39.0333">
+                            </div>
+                            <div class="form-group">
+                                <label>Longitud *</label>
+                                <input type="number" step="any" id="lng" required placeholder="-67.5833">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Descripción *</label>
+                            <textarea id="description" rows="4" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Imágenes</label>
+                            <input type="file" id="images" accept="image/*" multiple onchange="addImages()">
+                            <div id="imagePreview" class="image-preview"></div>
+                            <small>Las imágenes se agregan al hacer clic. La primera será la imagen principal. Haga clic en × para eliminar.</small>
+                        </div>
+
+                        <div class="caracteristicas-section">
+                            <h3>Características y Servicios</h3>
+                            <div class="checkbox-grid">
+                                <label><input type="checkbox" id="aguaCorriente"> Agua Corriente</label>
+                                <label><input type="checkbox" id="luzElectrica"> Luz Eléctrica</label>
+                                <label><input type="checkbox" id="gasNatural"> Gas Natural</label>
+                                <label><input type="checkbox" id="pileta"> Pileta</label>
+                                <label><input type="checkbox" id="parrilla"> Parrilla / Quincho</label>
+                                <label><input type="checkbox" id="jardin"> Jardín</label>
+                                <label><input type="checkbox" id="seguridad"> Seguridad / Alarma</label>
+                                <label><input type="checkbox" id="aptoMascotas"> Apto Mascotas</label>
+                                <label><input type="checkbox" id="aptoCredito"> Apto Crédito</label>
+                                <label><input type="checkbox" id="escrituraInmediata"> Escritura Inmediata</label>
+                                <label><input type="checkbox" id="planosAprobados"> Planos Aprobados</label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="resetForm()">Cancelar</button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save"></i> Guardar Propiedad
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script type="module" src="admin-script.js"></script>
+</body>
+</html>
