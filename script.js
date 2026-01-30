@@ -52,7 +52,8 @@ async function loadProperties() {
                 images: d.imagenes?.galeria || [d.imagenes?.principal],
                 caracteristicas: d.caracteristicas || {},
                 description: d.descripcion || '',
-                coordinates: { lat: d.lat || -39.0333, lng: d.lng || -67.5833 }
+                coordinates: { lat: d.lat || -39.0333, lng: d.lng || -67.5833 },
+                status: d.estado || 'disponible'
             };
             
             if (prop.region === 'roca') propertiesData.roca.push(prop);
@@ -69,15 +70,21 @@ async function loadProperties() {
 function createCard(prop) {
     const card = document.createElement('div');
     card.className = 'property-card';
-    card.dataset.propertyId = prop.id; // Usar dataset en lugar de onclick
+    card.dataset.propertyId = prop.id; 
     
-    const opText = prop.operationType === 'venta' ? 'en Venta' : 'en Alquiler';
-    const opClass = prop.operationType === 'venta' ? 'operation-sale' : 'operation-rent';
+    let opText = prop.operationType === 'venta' ? 'en Venta' : 'en Alquiler';
+    let opClass = prop.operationType === 'venta' ? 'operation-sale' : 'operation-rent';
+    
+    if (prop.status === 'reservada') {
+        opText = 'RESERVADA';
+        opClass = 'operation-reserved';
+    }
+
     const price = formatPrice(prop.price, prop.moneda);
     
     card.innerHTML = `
         <img src="${prop.image}" alt="${prop.address}" class="property-image" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Error'">
-        <div class="property-badge ${opClass}">${prop.type} ${opText}</div>
+        <div class="property-badge ${opClass}">${prop.status === 'reservada' ? 'RESERVADA' : prop.type + ' ' + opText}</div>
         <div class="property-info">
             <h3 class="property-address">${prop.address}</h3>
             <div class="property-location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</div>

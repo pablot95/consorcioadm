@@ -61,6 +61,7 @@
                     <h2 id="formTitle">Nueva Propiedad</h2>
                     <form id="propertyForm" onsubmit="saveProperty(event)">
                         <input type="hidden" id="propertyId">
+                        <input type="hidden" id="propertyStatus" value="disponible">
 
                         <div class="form-row">
                             <div class="form-group">
@@ -78,6 +79,10 @@
                                     <option value="Chacra">Chacra</option>
                                     <option value="Galpón">Galpón</option>
                                     <option value="Edificio">Edificio</option>
+                                    <option value="PH">PH</option>
+                                    <option value="Local">Local</option>
+                                    <option value="Depósito">Depósito</option>
+                                    <option value="Cochera">Cochera</option>
                                 </select>
                             </div>
                         </div>

@@ -140,16 +140,30 @@ function createPropertyCard(id, property) {
     const operationType = property.operacion === 'venta' ? 'Venta' : 'Alquiler';
     const operationClass = property.operacion === 'venta' ? 'operation-sale' : 'operation-rent';
     
+    const isReserved = property.estado === 'reservada';
+    const reservedClass = isReserved ? 'status-reserved' : '';
+    const reservedText = isReserved ? 'Reservada' : 'Marcar Reservada';
+    const reservedIcon = isReserved ? 'fa-bookmark' : 'fa-bookmark';
+    const reservedBtnClass = isReserved ? 'btn-unreserve' : 'btn-reserve';
+    const reservedBtnTitle = isReserved ? 'Quitar Reserva' : 'Marcar como Reservada';
+
+    // Badge visible en la card del admin si está reservada
+    const reservedBadge = isReserved ? '<span class="badge badge-reserved-admin" style="background:var(--color-accent-gold); color:white; margin-left:5px;">RESERVADA</span>' : '';
+
     div.innerHTML = `
         <div class="property-card-image">
             <img src="${property.imagenes?.principal || property.imagenes?.[0] || ''}" alt="${property.titulo}">
             <span class="badge ${operationClass}">${operationType}</span>
+            ${reservedBadge}
         </div>
         <div class="property-card-content">
             <h3>${property.titulo}</h3>
             <p class="location"><i class="fas fa-map-marker-alt"></i> ${property.ubicacion}</p>
             <p class="price">${property.precio}</p>
             <div class="card-actions">
+                <button onclick="toggleReservation('${id}', '${property.estado || 'disponible'}')" class="${reservedBtnClass}" title="${reservedBtnTitle}" style="background: ${isReserved ? '#666' : '#CCA352'}; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px;">
+                    <i class="fas ${reservedIcon}"></i>
+                </button>
                 <button onclick="editProperty('${id}')" class="btn-edit" title="Editar">
                     <i class="fas fa-edit"></i>
                 </button>
@@ -162,6 +176,26 @@ function createPropertyCard(id, property) {
     
     return div;
 }
+
+// Toggle Reservation Status
+window.toggleReservation = async function(id, currentStatus) {
+    const newStatus = currentStatus === 'reservada' ? 'disponible' : 'reservada';
+    const confirmMsg = newStatus === 'reservada' ? '¿Marcar esta propiedad como RESERVADA?' : '¿Quitar la marca de RESERVADA y ponerla como disponible?';
+
+    if (!confirm(confirmMsg)) return;
+
+    try {
+        await updateDoc(doc(db, "propiedades", id), {
+            estado: newStatus,
+            fechaActualizacion: new Date()
+        });
+        // alert(`Propiedad marcada como ${newStatus}`);
+        loadProperties();
+    } catch (error) {
+        console.error("Error updating status:", error);
+        alert('Error al actualizar el estado');
+    }
+};
 
 // Global array to store current images
 window.currentImages = [];
@@ -239,6 +273,7 @@ window.saveProperty = async function(event) {
         // Prepare property data
         const moneda = document.getElementById('moneda').value;
         const precio = document.getElementById('price').value;
+        const currentStatus = document.getElementById('propertyStatus').value || 'disponible';
         
         const propertyData = {
             titulo: document.getElementById('address').value,
@@ -273,7 +308,7 @@ window.saveProperty = async function(event) {
                 escrituraInmediata: document.getElementById('escrituraInmediata').checked,
                 planosAprobados: document.getElementById('planosAprobados').checked
             },
-            estado: 'disponible'
+            estado: currentStatus
         };
 
         // Add images if uploaded
@@ -327,6 +362,7 @@ window.editProperty = async function(id) {
         if (!property) return;
 
         document.getElementById('propertyId').value = id;
+        document.getElementById('propertyStatus').value = property.estado || 'disponible'; // Cargar estado
         document.getElementById('formTitle').textContent = 'Editar Propiedad';
         document.getElementById('address').value = property.titulo || '';
         document.getElementById('type').value = property.tipo || '';
@@ -403,6 +439,7 @@ window.resetForm = function() {
     renderImagePreview();
     document.getElementById('propertyForm').reset();
     document.getElementById('propertyId').value = '';
+    document.getElementById('propertyStatus').value = 'disponible';
     document.getElementById('antiguedad').value = '';
     document.getElementById('formTitle').textContent = 'Nueva Propiedad';
     document.getElementById('imagePreview').innerHTML = '';
