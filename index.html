@@ -4,18 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BASTONS PAULETE | Inmobiliaria</title>
-    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+    <link rel="icon" type="image/jpeg" href="images/logofondonegro.jpeg">
     <link rel="stylesheet" href="style.css">
-    <!-- Fuente de Google Fonts para un look profesional -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Fuente Libre Baskerville -->
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
     <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 </head>
 <body>
-    <div class="logo-container">
-        <img src="images/logo.jpg" alt="Bastons Paulete" class="logo-img">
+    <!-- Logo Inicial (NO FIXED, se queda arriba) -->
+    <div style="position: absolute; top: 20px; left: 20px; z-index: 200;">
+        <img src="images/Logoconnombre.jpeg" id="logoInitial" alt="Bastons Paulete" 
+             style="width: 300px; height: 300px; object-fit: cover; border-radius: 50%; border: 2px solid var(--color-accent-gold); box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 0.5s;">
+    </div>
+
+    <!-- Contenedor de Logo Fijo (Solo aparece al scrollear) -->
+    <div class="logo-container" id="fixedLogoContainer" style="opacity: 1; pointer-events: auto;">
+        <!-- Logo Scroll (Visible al bajar) - TAMAÑO ESTÁNDAR -->
+        <img src="images/logofondonegro.jpeg" id="logoScroll" alt="Bastons Paulete" class="logo-img" 
+             style="position: absolute; top: 40px; left: 120px; opacity: 0; transition: opacity 0.5s;">
     </div> 
 
     <!-- Barra de Contacto Superior -->
@@ -38,22 +47,28 @@
         <!-- Carrusel de fondo -->
         <div class="hero-carousel">
             <div class="carousel-slide active">
-                <img src="images/hero.jpg" alt="Propiedad 1">
+                <img src="images/carrousel1.jpeg" alt="Propiedad 1">
             </div>
             <div class="carousel-slide">
-                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Campo">
+                <img src="images/carrousel2.jpeg" alt="Propiedad 2">
+            </div>
+            <div class="carousel-slide">
+                <img src="images/carrousel3.jpeg" alt="Propiedad 3">
+            </div>
+            <div class="carousel-slide">
+                <img src="images/carrousel4.jpeg" alt="Propiedad 4">
             </div>
         </div>
         
         <div class="hero-content">
-            <h1 class="hero-title">BASTONS<br><span class="hero-title-indent">PAULETE</span></h1>
-            <p class="hero-subtitle">Segunda generación en gestiones inmobiliarias</p>
+            
+            <p class="hero-subtitle" style="white-space: nowrap; font-size: 1.6rem; margin-top: 200px; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); margin-left: 100px;">SEGUNDA GENERACIÓN EN SOLUCIONES INMOBILIARIAS</p>
             
             <div class="hero-buttons">
                 <button class="hero-btn" data-action="alquilar">Alquilar</button>
                 <button class="hero-btn" data-action="comprar">Comprar</button>
                 <button class="hero-btn" data-action="vender">Vender</button>
-                <button class="hero-btn" data-action="administrar">Administrar</button>
+                <button class="hero-btn" data-action="administrar">Administracion de Consorcios</button>
             </div>
 
             <!-- Panel de Búsqueda Inline (Oculto por defecto) -->
@@ -111,8 +126,8 @@
     <!-- Contenido Original: Gestión de Consorcios -->
     <section id="consorcios" class="section bg-light">
         <div class="container">
-            <h2 class="section-title">Gestión de Consorcios</h2>
-            <p class="section-description">También ofrecemos servicios profesionales de administración de consorcios</p>
+            <h2 class="section-title">ADMINISTRACIÓN DE CONSORCIOS</h2>
+            <p class="section-description">Dos décadas de experiencia y compromiso</p>
         </div>
     </section>
 
@@ -144,8 +159,7 @@
         <div class="container split-container">
             <div class="text-block">
                 <h2 class="section-title text-left">Sobre Nosotros</h2>
-                <p>Somos un equipo dedicado a la administración de consorcios con más de 10 años de experiencia. Entendemos que cada edificio es único, por lo que ofrecemos soluciones personalizadas.</p>
-                <p>Nuestra prioridad es la transparencia en los números y la respuesta rápida ante las urgencias. Creemos en una comunicación fluida entre el administrador y los vecinos.</p>
+                <p>Ofrecemos soluciones integrales que combinan experiencia, profesionalismo y transparencia, brindando confianza y tranquilidad a cada cliente. Nuestro equipo está preparado para cubrir todas las necesidades tanto en operaciones de compra venta, alquiler, tasaciones y administración de consorcios.</p>
                 <ul class="feature-list">
                     <li><i class="fas fa-check"></i> Atención personalizada 24/7 para urgencias</li>
                     <li><i class="fas fa-check"></i> Plataforma online para ver expensas</li>
@@ -153,8 +167,8 @@
                 </ul>
             </div>
             <div class="image-block">
-                <!-- Placeholder para imagen de oficina o edificio -->
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Edificio moderno">
+                <!-- Imagen de nosotros -->
+                <img src="images/nosotros.jpeg" alt="Nuestra Oficina">
             </div>
         </div>
     </section>
@@ -178,12 +192,12 @@
                         <div class="info-item">
                             <i class="fas fa-envelope"></i>
                             <h4>Email</h4>
-                            <p>roca@bastonspaul ete.com</p>
+                            <p>vanesap@bastonspaulete.com</p>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-map-marker-alt"></i>
                             <h4>Dirección</h4>
-                            <p>General Roca, Río Negro</p>
+                            <p>Tucumán N° 513 Oficina 10 Gral. Roca</p>
                         </div>
                     </div>
                 </div>
@@ -200,12 +214,12 @@
                         <div class="info-item">
                             <i class="fas fa-envelope"></i>
                             <h4>Email</h4>
-                            <p>laplata@bastonspaulete.com</p>
+                            <p>estudio@bastonspaulete.com</p>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-map-marker-alt"></i>
                             <h4>Dirección</h4>
-                            <p>La Plata, Buenos Aires</p>
+                            <p>Av 51 N° 455 Piso 1° Of B</p>
                         </div>
                     </div>
                 </div>
@@ -215,6 +229,8 @@
 
     <footer>
         <div class="container">
+             <img src="images/Logoconnombre.jpeg" alt="Bastons Paulete" style="max-width: 300px; height: auto; margin-bottom: 20px;">
+             <p style="margin-bottom: 20px; font-style: italic; font-size: 1.1rem;">Dos generaciones, un mismo compromiso</p>
             <p>&copy; 2026 BASTONS PAULETE. Todos los derechos reservados.</p>
         </div>
     </footer>

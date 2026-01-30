@@ -291,5 +291,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     displayProperties();
     initScrollAnimations();
     
+    // === LOGICA LOGO FIJO AL SCROLL ===
+    // logoInitial es ABSOLUTE (se va con el scroll visualmente)
+    // logoScroll es FIXED (aparece al bajar)
+    const logoInitial = document.getElementById('logoInitial');
+    const logoScroll = document.getElementById('logoScroll');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+           // Scroll: El inicial se desvanece (opcional, ya se fue para arriba) y aparece el fijo
+           if(logoInitial) logoInitial.style.opacity = '0';
+           if(logoScroll) logoScroll.style.opacity = '1';
+        } else {
+           // Top: El inicial es totalmente visible, el fijo invisible
+           if(logoInitial) logoInitial.style.opacity = '1';
+           if(logoScroll) logoScroll.style.opacity = '0';
+        }
+    });
+    
     console.log('✓ Aplicación lista');
 });
