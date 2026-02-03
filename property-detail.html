@@ -112,7 +112,7 @@
 
     <footer class="footer-contact" style="margin-top: 60px; text-align: center;">
         <div class="container">
-            <img src="images/Logoconnombre.jpeg" alt="Bastons Paulete" class="footer-logo-img">
+            <img src="images/logofooter.jpeg" alt="Bastons Paulete" class="footer-logo-img">
             <p style="margin-bottom: 20px; font-style: italic; font-size: 1.1rem;">Dos generaciones, un mismo compromiso</p>
         </div>
     </footer>
@@ -175,6 +175,13 @@
             const text = `Hola, soy ${name}. ${msg}`;
             const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
+        };
+
+        window.shareProperty = function(title, ubicacion) {
+            const currentUrl = window.location.href;
+            const message = `¡Mira esta propiedad! ${title} en ${ubicacion}. ${currentUrl}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
         };
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -273,13 +280,20 @@
                     ${galleryHTML}
                     
                     <div class="property-headline-row" style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
-                        <span class="property-badge ${opClass}" style="margin-bottom: 15px; display: inline-block; position: static; box-shadow: none;">${badgeText}</span>
-                        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
-                            <h2 style="font-size: 2.2rem; margin: 0; font-family: 'Playfair Display', serif; color: var(--color-primary-dark);">${data.titulo}</h2>
-                            <span style="font-size: 2rem; font-weight: 300; color: #dae0e5;">—</span>
-                            <div style="font-size: 1.3rem; color: #666;"><i class="fas fa-map-marker-alt" style="color: var(--color-accent-gold);"></i> ${data.ubicacion}</div>
-                            <span style="font-size: 2rem; font-weight: 300; color: #dae0e5;">—</span>
-                            <div style="font-size: 2rem; font-weight: bold; color: var(--color-accent-gold); margin-left: 0px;">${price}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
+                            <div style="flex: 1; min-width: 300px;">
+                                <span class="property-badge ${opClass}" style="margin-bottom: 15px; display: inline-block; position: static; box-shadow: none;">${badgeText}</span>
+                                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
+                                    <h2 style="font-size: 2.2rem; margin: 0; font-family: 'Playfair Display', serif; color: var(--color-primary-dark);">${data.titulo}</h2>
+                                    <span style="font-size: 2rem; font-weight: 300; color: #dae0e5;">—</span>
+                                    <div style="font-size: 1.3rem; color: #666;"><i class="fas fa-map-marker-alt" style="color: var(--color-accent-gold);"></i> ${data.ubicacion}</div>
+                                    <span style="font-size: 2rem; font-weight: 300; color: #dae0e5;">—</span>
+                                    <div style="font-size: 2rem; font-weight: bold; color: var(--color-accent-gold); margin-left: 0px;">${price}</div>
+                                </div>
+                            </div>
+                            <button onclick="shareProperty('${data.titulo.replace(/'/g, "\\'")}', '${data.ubicacion.replace(/'/g, "\\'")}');" style="background: #25D366; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);" onmouseover="this.style.background='#128C7E'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37, 211, 102, 0.5)';" onmouseout="this.style.background='#25D366'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37, 211, 102, 0.3)';">
+                                <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> COMPARTIR POR WHATSAPP
+                            </button>
                         </div>
                     </div>
 
@@ -335,24 +349,16 @@
                     </div>
                 `;
 
-                // Inicializar Mapa con Google Maps Iframe (Pin simple)
+                // Inicializar Mapa con Google Maps Iframe usando dirección de texto
                 const mapContainer = document.getElementById('detail-map');
                 
-                // Función para corregir coordenadas que vienen sin punto decimal (ej: -57948... -> -57.948...)
-                const fixCoord = (c) => {
-                    let val = parseFloat(c);
-                    if (isNaN(val)) return 0;
-                    // Ajustar mientras sea un valor geográfico imposible (> 180 o < -180)
-                    while (Math.abs(val) > 180) {
-                        val = val / 10;
-                    }
-                    return val;
-                };
-
-                if (data.lat && data.lng) {
-                    const lat = fixCoord(data.lat);
-                    const lng = fixCoord(data.lng);
-
+                // Usar la dirección completa para buscar en Google Maps
+                const ubicacion = data.ubicacion || '';
+                
+                if (ubicacion) {
+                    // Google Maps puede buscar por texto de dirección directamente
+                    const direccionEncoded = encodeURIComponent(ubicacion);
+                    
                     mapContainer.innerHTML = `
                         <iframe 
                             width="100%" 
@@ -362,14 +368,11 @@
                             allowfullscreen="" 
                             loading="lazy" 
                             referrerpolicy="no-referrer-when-downgrade"
-                            src="https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed">
+                            src="https://maps.google.com/maps?q=${direccionEncoded}&z=15&output=embed">
                         </iframe>
                     `;
                 } else {
-                     // Si no hay coordenadas (o solo ubicación texto), intentamos buscar por texto o ocultamos
-                     // Para mayor precisión, por ahora solo mostramos si hay lat/lng, 
-                     // o mostramos un mensaje si no está geolocalizada.
-                     mapContainer.innerHTML = '<div style="height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;color:#999;">Ubicación exacta no disponible en el mapa</div>';
+                    mapContainer.innerHTML = '<div style="height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;color:#999;">Ubicación no disponible</div>';
                 }
 
             } catch (error) {

@@ -16,6 +16,14 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// Callback para cuando Google Maps API se carga - DEBE estar en scope global
+window.initMap = function() {
+    console.log('✓ Google Maps API cargada');
+    if (typeof initAutocomplete === 'function') {
+        initAutocomplete();
+    }
+};
+
 // Credenciales de acceso
 const ADMIN_CREDENTIALS = {
     username: 'bastonspaulete',
@@ -43,7 +51,41 @@ function checkAuth() {
 }
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', checkAuth);
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuth();
+});
+
+// Initialize Google Places Autocomplete - Versión simplificada sin API (evita errores de activación)
+function initAutocomplete() {
+    const addressInput = document.getElementById('address');
+    const latInput = document.getElementById('lat');
+    const lngInput = document.getElementById('lng');
+    
+    if (!addressInput) {
+        console.log('Esperando carga del formulario...');
+        return;
+    }
+
+    // Remover readonly de lat/lng para permitir edición manual
+    latInput.removeAttribute('readonly');
+    lngInput.removeAttribute('readonly');
+    latInput.style.background = '#fff';
+    lngInput.style.background = '#fff';
+    
+
+    // Agregar botón de ayuda para obtener coordenadas
+    const coordHelp = document.createElement('small');
+    coordHelp.style.cssText = 'color: #666; font-size: 0.85rem; display: block; margin-top: 5px;';
+    coordHelp.innerHTML = '<i class="fas fa-lightbulb"></i> <a href="https://www.google.com/maps" target="_blank" style="color: #CCA352; text-decoration: underline;">Abrir Google Maps</a> para obtener coordenadas: click derecho en el mapa → copiar coordenadas';
+    
+    if (lngInput.parentElement && !lngInput.parentElement.querySelector('.coord-help')) {
+        coordHelp.classList.add('coord-help');
+        lngInput.parentElement.appendChild(coordHelp);
+    }
+
+    console.log('✓ Formulario de direcciones listo (modo manual)');
+    console.log('ℹ️ Para usar autocompletado, activa Places API en Google Cloud Console');
+}
 
 // Login
 window.login = function(event) {
