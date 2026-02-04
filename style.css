@@ -1648,13 +1648,14 @@ footer {
     }
 
     .hero {
-        height: 110vh;
+        min-height: 140vh;
+        height: auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
-        padding: 0;
+        padding: 20px 0 40px 0;
     }
 
 
