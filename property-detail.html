@@ -3,8 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle de Propiedad | Bastons Paulete</title>
-    <link rel="icon" type="image/png" href="images/logo.png">
+    
+    <!-- SEO Meta Tags (se actualizarán dinámicamente con JavaScript) -->
+    <title>Detalle de Propiedad | Bastons Paulete Inmobiliaria</title>
+    <meta name="description" content="Descubre esta propiedad en venta o alquiler en General Roca o La Plata. Bastons Paulete - Segunda generación en soluciones inmobiliarias." id="meta-description">
+    <meta name="keywords" content="propiedad, inmueble, venta, alquiler, General Roca, La Plata, Bastons Paulete">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bastonspaulete.com/property-detail.html" id="canonical-url">
+    
+    <!-- Open Graph / Facebook (se actualizarán dinámicamente) -->
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://bastonspaulete.com/property-detail.html" id="og-url">
+    <meta property="og:title" content="Propiedad en Venta/Alquiler | Bastons Paulete" id="og-title">
+    <meta property="og:description" content="Descubre esta propiedad en General Roca o La Plata" id="og-description">
+    <meta property="og:image" content="" id="og-image">
+    <meta property="og:locale" content="es_AR">
+    
+    <!-- Twitter Card (se actualizarán dinámicamente) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Propiedad en Venta/Alquiler | Bastons Paulete" id="twitter-title">
+    <meta name="twitter:description" content="Descubre esta propiedad en General Roca o La Plata" id="twitter-description">
+    <meta name="twitter:image" content="" id="twitter-image">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="images/logofondonegro.jpeg">
+    <link rel="apple-touch-icon" href="images/logofondonegro.jpeg">
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -368,12 +396,73 @@
                             allowfullscreen="" 
                             loading="lazy" 
                             referrerpolicy="no-referrer-when-downgrade"
+                            title="Ubicación de la propiedad en ${ubicacion}"
                             src="https://maps.google.com/maps?q=${direccionEncoded}&z=15&output=embed">
                         </iframe>
                     `;
                 } else {
                     mapContainer.innerHTML = '<div style="height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;color:#999;">Ubicación no disponible</div>';
                 }
+
+                // === ACTUALIZAR META TAGS PARA SEO ===
+                const operacionTexto = data.operacion === 'venta' ? 'en Venta' : 'en Alquiler';
+                const precioTexto = `${data.moneda || 'USD'} $ ${data.precio || ''}`;
+                const region = data.region === 'roca' ? 'General Roca' : 'La Plata';
+                
+                // Actualizar título
+                document.title = `${data.tipo || 'Propiedad'} ${operacionTexto} en ${data.ubicacion || region} - ${precioTexto} | Bastons Paulete`;
+                
+                // Actualizar meta description
+                const metaDesc = `${data.tipo || 'Propiedad'} ${operacionTexto} en ${data.ubicacion || region}. ${data.dormitorios ? data.dormitorios + ' dormitorios' : ''} ${data.banios ? ', ' + data.banios + ' baños' : ''}. Precio: ${precioTexto}. Bastons Paulete Inmobiliaria.`;
+                document.getElementById('meta-description').setAttribute('content', metaDesc);
+                
+                // Actualizar canonical URL
+                const currentUrl = window.location.href;
+                document.getElementById('canonical-url').setAttribute('href', currentUrl);
+                
+                // Actualizar Open Graph
+                document.getElementById('og-url').setAttribute('content', currentUrl);
+                document.getElementById('og-title').setAttribute('content', document.title);
+                document.getElementById('og-description').setAttribute('content', metaDesc);
+                if (window.allImages && window.allImages.length > 0) {
+                    document.getElementById('og-image').setAttribute('content', window.allImages[0]);
+                    document.getElementById('twitter-image').setAttribute('content', window.allImages[0]);
+                }
+                
+                // Actualizar Twitter Card
+                document.getElementById('twitter-title').setAttribute('content', document.title);
+                document.getElementById('twitter-description').setAttribute('content', metaDesc);
+                
+                // Agregar Schema.org para la propiedad
+                const schemaScript = document.createElement('script');
+                schemaScript.type = 'application/ld+json';
+                schemaScript.textContent = JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": data.operacion === 'venta' ? "RealEstateListing" : "RentalOffer",
+                    "name": data.titulo || '',
+                    "description": data.descripcion || metaDesc,
+                    "image": window.allImages || [],
+                    "address": {
+                        "@type": "PostalAddress",
+                        "streetAddress": data.ubicacion || '',
+                        "addressLocality": region,
+                        "addressCountry": "AR"
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "price": data.precio || 0,
+                        "priceCurrency": data.moneda || "USD",
+                        "availability": data.estado === 'reservada' ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
+                    },
+                    "numberOfRooms": data.dormitorios || 0,
+                    "numberOfBathroomsTotal": data.banios || 0,
+                    "floorSize": {
+                        "@type": "QuantitativeValue",
+                        "value": data.superficie?.cubierta || 0,
+                        "unitCode": "MTK"
+                    }
+                });
+                document.head.appendChild(schemaScript);
 
             } catch (error) {
                 console.error("Error loading property:", error);

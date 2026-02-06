@@ -3,27 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BASTONS PAULETE | Inmobiliaria</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>Bastons Paulete | Inmobiliaria en General Roca y La Plata | Compra, Venta y Alquiler</title>
+    <meta name="description" content="Bastons Paulete - Segunda generación en soluciones inmobiliarias. Compra, venta y alquiler de propiedades en General Roca y La Plata. Administración profesional de consorcios con más de 20 años de experiencia.">
+    <meta name="keywords" content="inmobiliaria, propiedades, casas en venta, departamentos en alquiler, General Roca, La Plata, administración de consorcios, tasaciones, inmuebles">
+    <meta name="author" content="Bastons Paulete">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bastonspaulete.com/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bastonspaulete.com/">
+    <meta property="og:title" content="Bastons Paulete | Inmobiliaria en General Roca y La Plata">
+    <meta property="og:description" content="Segunda generación en soluciones inmobiliarias. Compra, venta, alquiler y administración de consorcios.">
+    <meta property="og:image" content="https://bastonspaulete.com/images/logoconnombre.jpeg">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:site_name" content="Bastons Paulete Inmobiliaria">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://bastonspaulete.com/">
+    <meta name="twitter:title" content="Bastons Paulete | Inmobiliaria en General Roca y La Plata">
+    <meta name="twitter:description" content="Segunda generación en soluciones inmobiliarias. Compra, venta, alquiler y administración de consorcios.">
+    <meta name="twitter:image" content="https://bastonspaulete.com/images/logoconnombre.jpeg">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="images/logofondonegro.jpeg">
+    <link rel="apple-touch-icon" href="images/logofondonegro.jpeg">
+    
+    <!-- Preconnect para mejorar performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
     <!-- Fuente Libre Baskerville -->
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Bastons Paulete",
+      "description": "Inmobiliaria con más de 20 años de experiencia en General Roca y La Plata. Segunda generación en soluciones inmobiliarias.",
+      "url": "https://bastonspaulete.com",
+      "logo": "https://bastonspaulete.com/images/logoconnombre.jpeg",
+      "image": "https://bastonspaulete.com/images/logoconnombre.jpeg",
+      "telephone": ["+54-221-428-3399", "+54-221-576-6081"],
+      "email": ["vanesap@bastonspaulete.com", "estudio@bastonspaulete.com"],
+      "address": [
+        {
+          "@type": "PostalAddress",
+          "streetAddress": "Tucumán N° 513 Oficina 104",
+          "addressLocality": "General Roca",
+          "addressRegion": "Río Negro",
+          "addressCountry": "AR"
+        },
+        {
+          "@type": "PostalAddress",
+          "streetAddress": "Av 51 N° 455 Piso 1° Of B",
+          "addressLocality": "La Plata",
+          "addressRegion": "Buenos Aires",
+          "addressCountry": "AR"
+        }
+      ],
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "General Roca"
+        },
+        {
+          "@type": "City",
+          "name": "La Plata"
+        }
+      ],
+      "priceRange": "$$$",
+      "openingHours": "Mo-Fr 09:00-18:00",
+      "sameAs": [
+        "https://wa.me/5492214283399",
+        "https://wa.me/5492215766081"
+      ]
+    }
+    </script>
 </head>
 <body>
     <!-- Logo Inicial (NO FIXED, se queda arriba) -->
     <div class="initial-logo-wrapper">
-        <img src="images/logoconnombre.jpeg" id="logoInitial" alt="Bastons Paulete" 
+        <img src="images/logoconnombre.jpeg" id="logoInitial" alt="Bastons Paulete Inmobiliaria - Logo oficial" 
              style="width: 300px; height: 300px; object-fit: cover; border-radius: 50%; border: 2px solid var(--color-accent-gold); box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 0.5s;">
     </div>
 
     <!-- Contenedor de Logo Fijo (Solo aparece al scrollear) -->
     <div class="logo-container" id="fixedLogoContainer" style="opacity: 1; pointer-events: auto;">
         <!-- Logo Scroll (Visible al bajar) - TAMAÑO ESTÁNDAR -->
-        <img src="images/logofondonegro.jpeg" id="logoScroll" alt="Bastons Paulete" class="logo-img" 
+        <img src="images/logofondonegro.jpeg" id="logoScroll" alt="Bastons Paulete - Inmobiliaria segunda generación" class="logo-img" 
              style="position: absolute; top: 40px; left: 120px; opacity: 0; transition: opacity 0.5s;">
     </div> 
 
@@ -43,32 +123,33 @@
     </div>
 
     <!-- Hero Section -->
-    <header id="inicio" class="hero">
+    <header id="inicio" class="hero" role="banner" aria-label="Sección principal">
         <!-- Carrusel de fondo -->
-        <div class="hero-carousel">
+        <div class="hero-carousel" role="img" aria-label="Carrusel de propiedades destacadas">
             <div class="carousel-slide active">
-                <img src="images/carrousel1.jpeg" alt="Propiedad 1">
+                <img src="images/carrousel1.jpeg" alt="Propiedad destacada en venta - Casa moderna con jardín" loading="eager">
             </div>
             <div class="carousel-slide">
-                <img src="images/carrousel2.jpeg" alt="Propiedad 2">
+                <img src="images/carrousel2.jpeg" alt="Departamento en alquiler - Amplio y luminoso" loading="lazy">
             </div>
             <div class="carousel-slide">
-                <img src="images/carrousel3.jpeg" alt="Propiedad 3">
+                <img src="images/carrousel3.jpeg" alt="Casa familiar en venta - Zona residencial" loading="lazy">
             </div>
             <div class="carousel-slide">
-                <img src="images/carrousel4.jpeg" alt="Propiedad 4">
+                <img src="images/carrousel4.jpeg" alt="Propiedad comercial disponible - Excelente ubicación" loading="lazy">
             </div>
         </div>
         
         <div class="hero-content">
+            <h1 style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;">Bastons Paulete - Inmobiliaria en General Roca y La Plata - Segunda Generación en Soluciones Inmobiliarias</h1>
             
             <p class="hero-subtitle">SEGUNDA GENERACIÓN EN SOLUCIONES INMOBILIARIAS</p>
             
-            <div class="hero-buttons">
-                <button class="hero-btn" data-action="alquilar">Alquilar</button>
-                <button class="hero-btn" data-action="comprar">Comprar</button>
-                <button class="hero-btn" data-action="vender">Vender</button>
-                <button class="hero-btn" data-action="administrar">Administracion de Consorcios</button>
+            <div class="hero-buttons" role="navigation" aria-label="Opciones de servicio">
+                <button class="hero-btn" data-action="alquilar" aria-label="Buscar propiedades para alquilar">Alquilar</button>
+                <button class="hero-btn" data-action="comprar" aria-label="Buscar propiedades para comprar">Comprar</button>
+                <button class="hero-btn" data-action="vender" aria-label="Información para vender tu propiedad">Vender</button>
+                <button class="hero-btn" data-action="administrar" aria-label="Servicios de administración de consorcios">Administracion de Consorcios</button>
             </div>
 
             <!-- Panel de Búsqueda Inline (Oculto por defecto) -->
@@ -129,10 +210,10 @@
 
 
     <!-- Contenido Original: Gestión de Consorcios -->
-    <section id="consorcios" class="section bg-light">
+    <section id="consorcios" class="section bg-light" aria-labelledby="consorcios-title">
         <div class="container">
-            <h2 class="section-title">ADMINISTRACIÓN DE CONSORCIOS</h2>
-            <p class="section-description">Dos décadas de experiencia y compromiso</p>
+            <h2 id="consorcios-title" class="section-title">ADMINISTRACIÓN PROFESIONAL DE CONSORCIOS</h2>
+            <p class="section-description">Más de 20 años de experiencia y compromiso en General Roca y La Plata</p>
         </div>
     </section>
 
@@ -173,7 +254,7 @@
             </div>
             <div class="image-block">
                 <!-- Imagen de nosotros -->
-                <img src="images/nosotros.jpeg" alt="Nuestra Oficina">
+                <img src="images/nosotros.jpeg" alt="Oficina de Bastons Paulete Inmobiliaria - Equipo profesional en General Roca y La Plata" loading="lazy">
             </div>
         </div>
     </section>
@@ -232,9 +313,9 @@
         </div>
     </section>
 
-    <footer>
+    <footer role="contentinfo" aria-label="Información de contacto y derechos">
         <div class="container">
-             <img src="images/logofooter.jpeg" alt="Bastons Paulete" style="max-width: 300px; height: auto; margin-bottom: 20px;">
+             <img src="images/logofooter.jpeg" alt="Bastons Paulete Inmobiliaria - Segunda generación" style="max-width: 300px; height: auto; margin-bottom: 20px;" loading="lazy">
              <p style="margin-bottom: 20px; font-style: italic; font-size: 1.1rem;">Dos generaciones, un mismo compromiso</p>
             <p>&copy; 2026 BASTONS PAULETE. Todos los derechos reservados.</p>
         </div>

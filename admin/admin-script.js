@@ -1,7 +1,6 @@
-// Firebase Configuration
+// Firebase Configuration (solo Firestore, sin Storage)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDQwd0ADyhufmohDzVOnBVzi4dmJfc_nyY",
@@ -14,7 +13,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const storage = getStorage(app);
+
+// Configuración del servidor (actualiza con tu dominio de SiteGround)
+const SERVER_URL = window.location.origin; // Usa el dominio actual
+const UPLOAD_API = `${SERVER_URL}/api/upload-images.php`;
+const DELETE_API = `${SERVER_URL}/api/delete-image.php`;
 
 // Callback para cuando Google Maps API se carga - DEBE estar en scope global
 window.initMap = function() {
@@ -295,21 +298,40 @@ window.saveProperty = async function(event) {
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
 
     try {
-        // Upload new images
+        // Upload new images to SiteGround server
         let imageUrls = [];
         
-        for (let i = 0; i < window.currentImages.length; i++) {
-            const imgData = window.currentImages[i];
-            if (imgData.isNew && imgData.file) {
-                // Upload new image
-                const storageRef = ref(storage, `propiedades/${Date.now()}_${imgData.file.name}`);
-                await uploadBytes(storageRef, imgData.file);
-                const url = await getDownloadURL(storageRef);
-                imageUrls.push(url);
-            } else {
-                // Keep existing image URL
-                imageUrls.push(imgData.url);
+        // Separate new files from existing URLs
+        const newFiles = window.currentImages.filter(img => img.isNew && img.file).map(img => img.file);
+        const existingUrls = window.currentImages.filter(img => !img.isNew).map(img => img.url);
+        
+        // Upload new files if any
+        if (newFiles.length > 0) {
+            const formData = new FormData();
+            newFiles.forEach(file => {
+                formData.append('images[]', file);
+            });
+            
+            const uploadResponse = await fetch(UPLOAD_API, {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (!uploadResponse.ok) {
+                throw new Error('Error al subir imágenes al servidor');
             }
+            
+            const uploadResult = await uploadResponse.json();
+            if (uploadResult.success && uploadResult.urls) {
+                // Convert relative URLs to absolute
+                const uploadedUrls = uploadResult.urls.map(url => `${SERVER_URL}/${url}`);
+                imageUrls = [...existingUrls, ...uploadedUrls];
+            } else {
+                throw new Error('Error en la respuesta del servidor');
+            }
+        } else {
+            // Only existing images
+            imageUrls = existingUrls;
         }
 
         // Prepare property data
@@ -466,6 +488,35 @@ window.deleteProperty = async function(id) {
     if (!confirm('¿Está seguro de que desea eliminar esta propiedad?')) return;
 
     try {
+        // Obtener la propiedad para eliminar sus imágenes
+        const docSnap = await getDocs(query(collection(db, "propiedades")));
+        let property = null;
+        
+        docSnap.forEach((doc) => {
+            if (doc.id === id) {
+                property = doc.data();
+            }
+        });
+
+        // Eliminar imágenes del servidor
+        if (property && property.imagenes && property.imagenes.galeria) {
+            for (const imageUrl of property.imagenes.galeria) {
+                try {
+                    await fetch(DELETE_API, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ imageUrl })
+                    });
+                } catch (imgError) {
+                    console.warn('Error al eliminar imagen:', imgError);
+                    // Continuar aunque falle la eliminación de imagen
+                }
+            }
+        }
+
+        // Eliminar documento de Firestore
         await deleteDoc(doc(db, "propiedades", id));
         alert('Propiedad eliminada exitosamente');
         loadProperties();

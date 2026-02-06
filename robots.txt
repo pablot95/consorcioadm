@@ -1,0 +1,21 @@
+# robots.txt para Bastons Paulete Inmobiliaria
+
+# Permitir todos los crawlers
+User-agent: *
+Allow: /
+
+# Disallow para áreas administrativas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /uploads/
+
+# Permitir específicamente imágenes de propiedades para Google Images
+User-agent: Googlebot-Image
+Allow: /uploads/properties/
+Allow: /images/
+
+# Sitemap
+Sitemap: https://bastonspaulete.com/sitemap.xml
+
+# Crawl-delay (opcional, solo si tienes problemas de carga del servidor)
+# Crawl-delay: 10

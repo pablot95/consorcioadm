@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <!-- Página Principal -->
+    <url>
+        <loc>https://bastonspaulete.com/</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Detalle de Propiedades -->
+    <url>
+        <loc>https://bastonspaulete.com/property-detail.html</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Sección Propiedades -->
+    <url>
+        <loc>https://bastonspaulete.com/#propiedades</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- Sección Consorcios -->
+    <url>
+        <loc>https://bastonspaulete.com/#consorcios</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- Sección Servicios -->
+    <url>
+        <loc>https://bastonspaulete.com/#servicios</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- Sección Nosotros -->
+    <url>
+        <loc>https://bastonspaulete.com/#nosotros</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Sección Contacto -->
+    <url>
+        <loc>https://bastonspaulete.com/#contacto</loc>
+        <lastmod>2026-02-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+</urlset>
