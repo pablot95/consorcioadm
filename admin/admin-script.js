@@ -15,9 +15,20 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Configuración del servidor (actualiza con tu dominio de SiteGround)
-const SERVER_URL = window.location.origin; // Usa el dominio actual
-const UPLOAD_API = `${SERVER_URL}/api/upload-images.php`;
-const DELETE_API = `${SERVER_URL}/api/delete-image.php`;
+const SERVER_URL = window.location.origin; 
+// Usamos ruta relativa para que funcione tanto en root como en subcarpetas
+// Desde /admin/index.html, subir un nivel es la raíz, luego entrar a api/
+const UPLOAD_API = '../api/uploader.php';
+const DELETE_API = '../api/delete-image.php';
+
+// Detectar si estamos en localhost sin soporte PHP
+if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+    console.warn("ADVERTENCIA: Estás ejecutando esto en Localhost.");
+    console.warn("Si usas 'Live Server' de VS Code, la subida de imágenes NO funcionará porque no soporta PHP.");
+    console.warn("Debes usar un servidor como XAMPP/Laragon, o probar directamente en el hosting (SiteGround).");
+}
+
+console.log('API Endpoints:', { UPLOAD_API, DELETE_API, location: window.location.href });
 
 // Callback para cuando Google Maps API se carga - DEBE estar en scope global
 window.initMap = function() {
@@ -316,12 +327,45 @@ window.saveProperty = async function(event) {
                 method: 'POST',
                 body: formData
             });
+
+            // 1. Leer SIEMPRE como texto primero para poder loguearlo
+            const responseText = await uploadResponse.text();
+            console.log("----- DEBUG RESPUESTA SERVIDOR -----");
+            console.log("Status:", uploadResponse.status);
+            console.log("Cuerpo:", responseText);
+            console.log("------------------------------------");
             
             if (!uploadResponse.ok) {
-                throw new Error('Error al subir imágenes al servidor');
+                // Intento parsear error del JSON si existe
+                let errorMessage = `Error del servidor (${uploadResponse.status})`;
+                try {
+                    const errorJson = JSON.parse(responseText);
+                    if (errorJson.error) errorMessage = errorJson.error;
+                    if (errorJson.details) errorMessage += ": " + JSON.stringify(errorJson.details);
+                } catch (e) {
+                    // Si no es JSON, usamos el texto crudo (truncado si es muy largo)
+                    errorMessage += ": " + responseText.substring(0, 200);
+                }
+                
+                if (uploadResponse.status === 404) errorMessage = "Error 404: No se encuentra el script de subida (api/upload-images.php)";
+                if (uploadResponse.status === 405) errorMessage = "Error 405: Método no permitido (Revisar configuración de servidor/PHP)";
+                
+                throw new Error(errorMessage);
             }
             
-            const uploadResult = await uploadResponse.json();
+            // 2. Si es OK, intentar parsear el éxito
+            let uploadResult;
+            try {
+                uploadResult = JSON.parse(responseText);
+            } catch (e) {
+                console.error("Error de parseo JSON:", e);
+                // Si la respuesta está vacía, es un error específico
+                if (!responseText.trim()) {
+                    throw new Error("El servidor respondió OK (200) pero envió una respuesta vacía. Posible error silencioso de PHP (revisar logs de error_log).");
+                }
+                throw new Error(`El servidor envió datos inválidos: ${responseText.substring(0, 100)}...`);
+            }
+
             if (uploadResult.success && uploadResult.urls) {
                 // Convert relative URLs to absolute
                 const uploadedUrls = uploadResult.urls.map(url => `${SERVER_URL}/${url}`);
