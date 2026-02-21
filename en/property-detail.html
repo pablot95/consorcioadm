@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Property Details | Bastons Paulete Real Estate</title>
+    <meta name="description" content="Discover this property for sale or rent in General Roca or La Plata. Bastons Paulete - Second generation in real estate solutions." id="meta-description">
+    <meta name="keywords" content="property, real estate, sale, rent, General Roca, La Plata, Bastons Paulete">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bastonspaulete.com/en/property-detail.html" id="canonical-url">
+
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://bastonspaulete.com/en/property-detail.html" id="og-url">
+    <meta property="og:title" content="Property for Sale/Rent | Bastons Paulete" id="og-title">
+    <meta property="og:description" content="Discover this property in General Roca or La Plata" id="og-description">
+    <meta property="og:image" content="" id="og-image">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Property for Sale/Rent | Bastons Paulete" id="twitter-title">
+    <meta name="twitter:description" content="Discover this property in General Roca or La Plata" id="twitter-description">
+    <meta name="twitter:image" content="" id="twitter-image">
+
+    <link rel="icon" type="image/jpeg" href="../images/logofondonegro.jpeg">
+    <link rel="apple-touch-icon" href="../images/logofondonegro.jpeg">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .detail-container { padding: 40px 20px; background: #fff; max-width: 1400px; margin: 0 auto; }
+        .property-header { border-bottom: 2px solid var(--color-accent-gold); margin-bottom: 40px; padding-bottom: 20px; }
+        .property-header h1 { font-size: 2.5rem; color: var(--color-primary-dark); margin-bottom: 10px; }
+        .property-header .price-container { font-size: 1.8rem; color: var(--color-accent-gold); font-weight: bold; }
+        .property-header .location { font-size: 1.2rem; color: #666; margin-top: 10px; }
+        
+        img { max-width: 100%; height: auto; display: block; }
+        
+        .gallery-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 10px; height: 550px; margin-bottom: 40px; }
+        .gallery-main-container { position: relative; width: 100%; height: 100%; overflow: hidden; cursor: pointer; border-radius: 8px; }
+        .gallery-main { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-side { display: grid; grid-template-rows: repeat(2, 1fr); gap: 10px; height: 100%; }
+        .gallery-thumb-container { position: relative; overflow: hidden; cursor: pointer; border-radius: 8px; }
+        .gallery-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .gallery-thumb:hover { transform: scale(1.1); }
+        .more-photos-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; }
+        
+        @media(max-width: 768px) {
+            .gallery-grid { grid-template-columns: 1fr; height: auto; }
+            .gallery-main-container { height: 350px; }
+            .gallery-side { grid-template-columns: repeat(2, 1fr); grid-template-rows: 1fr; height: 150px; }
+        }
+        
+        .lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
+        .lightbox.active { display: flex; }
+        .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; animation: zoomIn 0.3s; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 20px; }
+        .nav-btn { background: rgba(255,255,255,0.3); border: none; color: white; font-size: 2rem; padding: 15px 20px; cursor: pointer; border-radius: 5px; }
+        .nav-btn:hover { background: rgba(255,255,255,0.5); }
+        .close-lightbox { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: white; cursor: pointer; }
+        @keyframes zoomIn { from {transform: scale(0.9); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+        
+        .details-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        .info-col h3 { border-left: 4px solid var(--color-accent-gold); padding-left: 10px; margin: 30px 0 15px 0; }
+        .specs-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .spec-item { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+        .spec-item i { color: var(--color-accent-gold); width: 20px; text-align: center; }
+        .amenities-list { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag-amenity { background: #f0f0f0; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; }
+        .tag-amenity i { color: var(--color-accent-gold); margin-right: 5px; }
+        .sidebar-card { background: #f9f9f9; padding: 20px; border-radius: 8px; border-top: 4px solid var(--color-accent-gold); position: sticky; top: 100px; }
+        .map-box { width: 100%; height: 350px; background: #eee; margin-top: 20px; border-radius: 8px; }
+        @media(max-width: 768px) { .details-grid { grid-template-columns: 1fr; } }
+        
+        /* 2-column layout for Property Detail */
+        .property-content-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: start; }
+        .contact-card { background: #f8f9fa; padding: 30px; border-radius: 15px; border: 1px solid #eee; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: sticky; top: 120px; }
+        .contact-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 20px; color: var(--color-primary-dark); border-bottom: 3px solid var(--color-accent-gold); display: inline-block; padding-bottom: 5px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; color: #555; }
+        .form-input { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; transition: all 0.3s; font-family: 'Roboto', sans-serif; }
+        .form-input:focus { border-color: var(--color-accent-gold); outline: none; background: white; }
+        .form-textarea { resize: vertical; min-height: 120px; }
+        .btn-submit-wsp { width: 100%; padding: 15px; background: #25D366; color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .btn-submit-wsp:hover { background: #128C7E; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5); }
+        
+        @media(max-width: 992px) { .property-content-grid { grid-template-columns: 1fr; } .contact-card { position: static; margin-top: 40px; } }
+
+        .footer-logo-img {
+            max-width: 300px; 
+            height: auto; 
+            margin-bottom: 20px; 
+            display: block; 
+            margin-left: auto; 
+            margin-right: auto;
+        }
+        @media(max-width: 768px) {
+            .footer-logo-img {
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 80px; background: var(--color-primary-dark); padding: 0 40px; z-index: 2000; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+        <a href="index.html#propiedades" style="color: white; font-size: 1.2rem; text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: bold; transition: color 0.3s;">
+            <i class="fas fa-arrow-left"></i> HOME
+        </a>
+    </div>
+
+    <div style="background: white; min-height: 100vh; padding-top: 100px;">
+        <div class="container" style="padding-top: 0px; padding-bottom: 20px;">
+            <div id="detail-content">
+                <p style="text-align: center; padding: 60px; font-size: 1.2rem;">
+                    <i class="fas fa-circle-notch fa-spin"></i> Loading property details...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-nav">
+            <button class="nav-btn" onclick="changeSlide(-1)">&#10094;</button>
+            <button class="nav-btn" onclick="changeSlide(1)">&#10095;</button>
+        </div>
+    </div>
+
+    <footer class="footer-contact" style="margin-top: 60px; text-align: center;">
+        <div class="container">
+            <img src="../images/logofooter.jpeg" alt="Bastons Paulete" class="footer-logo-img">
+            <p style="margin-bottom: 20px; font-style: italic; font-size: 1.1rem;">Two generations, one same commitment</p>
+            <p>&copy; 2026 BASTONS PAULETE. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">
+                Developed and Designed by: <a href="http://www.gokywebs.net" target="_blank" style="color: inherit; text-decoration: none;">Gokywebs.net</a>
+            </p>
+        </div>
+    </footer>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQwd0ADyhufmohDzVOnBVzi4dmJfc_nyY",
+            authDomain: "bastonspaulete-14784.firebaseapp.com",
+            projectId: "bastonspaulete-14784",
+            storageBucket: "bastonspaulete-14784.firebasestorage.app",
+            messagingSenderId: "389653513733",
+            appId: "1:389653513733:web:dbbd3fa96d67efd49cdff3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.allImages = []; 
+        window.currentSlideIndex = 0;
+
+        window.openLightbox = function(index) {
+            currentSlideIndex = index;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        window.closeLightbox = function() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        window.changeSlide = function(step) {
+            currentSlideIndex += step;
+            if (currentSlideIndex < 0) currentSlideIndex = allImages.length - 1;
+            if (currentSlideIndex >= allImages.length) currentSlideIndex = 0;
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            document.getElementById('lightbox-img').src = allImages[currentSlideIndex];
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closeLightbox();
+            if (event.key === 'ArrowLeft') changeSlide(-1);
+            if (event.key === 'ArrowRight') changeSlide(1);
+        });
+
+        window.sendWhatsappConsulta = function(phone, title) {
+            const name = document.getElementById('contactName').value;
+            const msg = document.getElementById('contactMsg').value;
+            
+            if (!name) {
+                alert('Please enter your name.');
+                return;
+            }
+            
+            const text = `Hello, I am ${name}. ${msg}`;
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        };
+
+        window.shareProperty = function(title, ubicacion) {
+            const currentUrl = window.location.href;
+            const message = `Check out this property! ${title} in ${ubicacion}. ${currentUrl}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        };
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            
+            if (!id) {
+                document.getElementById('detail-content').innerHTML = '<p style="text-align:center;padding:60px;">Property ID not specified</p>';
+                return;
+            }
+
+            try {
+                const docSnap = await getDoc(doc(db, "propiedades", id));
+                if (!docSnap.exists()) {
+                    document.getElementById('detail-content').innerHTML = '<p style="text-align:center;padding:60px;">Property not found</p>';
+                    return;
+                }
+
+                const data = docSnap.data();
+                window.allImages = data.imagenes?.galeria || [data.imagenes?.principal] || [];
+
+                const whatsapp = data.region === 'roca' ? '5492214283399' : '5492215766081';
+                const moneda = data.moneda || 'USD';
+                const price = `${moneda} ${data.precio || '0'}`;
+
+                let galleryHTML = '';
+                if (allImages.length > 0) {
+                    if (allImages.length === 1) {
+                        galleryHTML = `<div class="modal-gallery-single"><img src="${allImages[0]}" alt="${data.titulo}"></div>`;
+                    } else {
+                        const img2 = allImages[1] || allImages[0];
+                        const img3 = allImages[2] || null;
+                        
+                        galleryHTML = `
+                            <div class="modal-gallery-grid">
+                                <div class="gallery-main" onclick="openLightbox(0)">
+                                    <img src="${allImages[0]}" alt="Main image">
+                                </div>
+                                <div class="gallery-side">
+                                    <div class="gallery-side-item" onclick="openLightbox(1)">
+                                        <img src="${img2}" alt="Image 2">
+                                    </div>
+                                    ${img3 ? `<div class="gallery-side-item" onclick="openLightbox(2)"><img src="${img3}" alt="Image 3"></div>` : ''}
+                                </div>
+                            </div>
+                            <div style="text-align: center; margin-top: -20px; margin-bottom: 30px;">
+                                <button onclick="openLightbox(0)" class="btn-detail" style="font-size: 0.9rem; padding: 10px 20px;"><i class="fas fa-images"></i> View Full Gallery (${allImages.length})</button>
+                            </div>
+                        `;
+                    }
+                }
+
+                let caracteristicasHTML = '';
+                if (data.caracteristicas) {
+                    const c = data.caracteristicas;
+                    const items = [];
+                    if (c.aguaCorriente) items.push('<div class="caract-item active"><i class="fas fa-tint"></i>Running Water</div>');
+                    if (c.luzElectrica) items.push('<div class="caract-item active"><i class="fas fa-lightbulb"></i>Electricity</div>');
+                    if (c.gasNatural) items.push('<div class="caract-item active"><i class="fas fa-fire"></i>Natural Gas</div>');
+                    if (c.pileta) items.push('<div class="caract-item active"><i class="fas fa-swimming-pool"></i>Swimming Pool</div>');
+                    if (c.parrilla) items.push('<div class="caract-item active"><i class="fas fa-utensils"></i>BBQ Grill</div>');
+                    if (c.jardin) items.push('<div class="caract-item active"><i class="fas fa-tree"></i>Garden</div>');
+                    if (c.seguridad) items.push('<div class="caract-item active"><i class="fas fa-shield-alt"></i>Security</div>');
+                    if (c.aptoMascotas) items.push('<div class="caract-item active"><i class="fas fa-paw"></i>Pet Friendly</div>');
+                    if (c.aptoCredito) items.push('<div class="caract-item active"><i class="fas fa-check-circle"></i>Loan Eligible</div>');
+                    if (c.escrituraInmediata) items.push('<div class="caract-item active"><i class="fas fa-file-signature"></i>Immediate Title Deed</div>');
+                    if (c.planosAprobados) items.push('<div class="caract-item active"><i class="fas fa-drafting-compass"></i>Approved Plans</div>');
+
+                    if (items.length > 0) {
+                        caracteristicasHTML = `
+                            <div class="modal-caracteristicas">
+                                <h3>Features</h3>
+                                <div class="caracteristicas-grid">
+                                    ${items.join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                let opText = data.operacion === 'venta' ? 'for Sale' : 'for Rent';
+                let opClass = data.operacion === 'venta' ? 'operation-sale' : 'operation-rent';
+                
+                let badgeText = `${data.tipo || 'Property'} ${opText}`;
+
+                if (data.estado === 'reservada') {
+                    opClass = 'operation-reserved';
+                    badgeText = 'RESERVED';
+                }
+
+                document.getElementById('detail-content').innerHTML = `
+                    ${galleryHTML}
+                    
+                    <div class="property-headline-row" style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
+                            <div style="flex: 1; min-width: 300px;">
+                                <span class="property-badge ${opClass}" style="margin-bottom: 15px; display: inline-block; position: static; box-shadow: none;">${badgeText}</span>
+                                <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 15px;">
+                                    <h2 style="font-size: 2.2rem; margin: 0; font-family: 'Playfair Display', serif; color: var(--color-primary-dark);">${data.titulo}</h2>
+                                    <span style="font-size: 2rem; font-weight: 300; color: #dae0e5;">—</span>
+                                    <div style="font-size: 1.3rem; color: #666;"><i class="fas fa-map-marker-alt" style="color: var(--color-accent-gold);"></i> ${data.ubicacion}</div>
+                                    <span style="font-size: 2rem; font-weight: 300; color: #dae0e5;">—</span>
+                                    <div style="font-size: 2rem; font-weight: bold; color: var(--color-accent-gold); margin-left: 0px;">${price}</div>
+                                </div>
+                            </div>
+                            <button onclick="shareProperty('${data.titulo.replace(/'/g, "\\'")}', '${data.ubicacion.replace(/'/g, "\\'")}');" style="background: #25D366; color: white; border: none; padding: 15px 30px; border-radius: 50px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);" onmouseover="this.style.background='#128C7E'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37, 211, 102, 0.5)';" onmouseout="this.style.background='#25D366'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37, 211, 102, 0.3)';">
+                                <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> SHARE VIA WHATSAPP
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="property-content-grid">
+                        <div class="left-col">
+                            <div class="modal-property-details" style="background: #fcfcfc; border: 1px solid #eee;">
+                                ${data.dormitorios ? `<div class="modal-detail-item"><i class="fas fa-bed"></i><strong>${data.dormitorios}</strong><span>Bedrooms</span></div>` : ''}
+                                ${data.banios ? `<div class="modal-detail-item"><i class="fas fa-bath"></i><strong>${data.banios}</strong><span>Bathrooms</span></div>` : ''}
+                                ${data.superficie?.cubierta ? `<div class="modal-detail-item"><i class="fas fa-ruler-combined"></i><strong>${data.superficie.cubierta}m²</strong><span>Covered Area</span></div>` : ''}
+                                ${data.superficie?.total ? `<div class="modal-detail-item"><i class="fas fa-expand"></i><strong>${data.superficie.total}m²</strong><span>Total Area</span></div>` : ''}
+                                ${data.antiguedad ? `<div class="modal-detail-item"><i class="fas fa-calendar-alt"></i><strong>${data.antiguedad} years</strong><span>Age</span></div>` : ''}
+                            </div>
+
+                            <div class="modal-property-description" style="margin-top: 40px;">
+                                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 20px;">Description</h3>
+                                <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">${data.descripcion || 'No description available'}</p>
+                            </div>
+
+                            ${caracteristicasHTML}
+
+                            <div class="modal-property-map" style="margin-top: 40px;">
+                                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 20px;">Location</h3>
+                                <div class="modal-map-container" id="detail-map"></div>
+                            </div>
+                        </div>
+
+                        <div class="right-col">
+                            <div class="contact-card">
+                                <h3>Contact</h3>
+                                <p style="margin-bottom: 25px; color: #666;">Fill in your details to inquire about this property directly via WhatsApp.</p>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="contactName">Your Name</label>
+                                    <input type="text" id="contactName" class="form-input" placeholder="E.g.: John Smith">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="contactMsg">Message</label>
+                                    <textarea id="contactMsg" class="form-input form-textarea" placeholder="Write your inquiry here...">Hello, I am interested in the property "${data.titulo}" located in ${data.ubicacion}. I would like more information.</textarea>
+                                </div>
+                                
+                                <button onclick="sendWhatsappConsulta('${whatsapp}', '${data.titulo.replace(/'/g, "\\'")}')" class="btn-submit-wsp">
+                                    <i class="fab fa-whatsapp"></i> Send Inquiry
+                                </button>
+                                
+                                <p style="text-align: center; margin-top: 15px; font-size: 0.85rem; color: #999;">
+                                    <i class="fas fa-lock"></i> Your data is only used for initial contact
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const mapContainer = document.getElementById('detail-map');
+                
+                const ubicacion = data.ubicacion || '';
+                
+                if (ubicacion) {
+                    const direccionEncoded = encodeURIComponent(ubicacion);
+                    
+                    mapContainer.innerHTML = `
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            frameborder="0" 
+                            style="border:0;"
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Property location in ${ubicacion}"
+                            src="https://maps.google.com/maps?q=${direccionEncoded}&z=15&output=embed">
+                        </iframe>
+                    `;
+                } else {
+                    mapContainer.innerHTML = '<div style="height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;color:#999;">Location not available</div>';
+                }
+
+                const operacionTexto = data.operacion === 'venta' ? 'for Sale' : 'for Rent';
+                const precioTexto = `${data.moneda || 'USD'} $ ${data.precio || ''}`;
+                const region = data.region === 'roca' ? 'General Roca' : 'La Plata';
+                
+                document.title = `${data.tipo || 'Property'} ${operacionTexto} in ${data.ubicacion || region} - ${precioTexto} | Bastons Paulete`;
+                
+                const metaDesc = `${data.tipo || 'Property'} ${operacionTexto} in ${data.ubicacion || region}. ${data.dormitorios ? data.dormitorios + ' bedrooms' : ''} ${data.banios ? ', ' + data.banios + ' bathrooms' : ''}. Price: ${precioTexto}. Bastons Paulete Real Estate.`;
+                document.getElementById('meta-description').setAttribute('content', metaDesc);
+                
+                const currentUrl = window.location.href;
+                document.getElementById('canonical-url').setAttribute('href', currentUrl);
+                
+                document.getElementById('og-url').setAttribute('content', currentUrl);
+                document.getElementById('og-title').setAttribute('content', document.title);
+                document.getElementById('og-description').setAttribute('content', metaDesc);
+                if (window.allImages && window.allImages.length > 0) {
+                    document.getElementById('og-image').setAttribute('content', window.allImages[0]);
+                    document.getElementById('twitter-image').setAttribute('content', window.allImages[0]);
+                }
+                
+                document.getElementById('twitter-title').setAttribute('content', document.title);
+                document.getElementById('twitter-description').setAttribute('content', metaDesc);
+                
+                const schemaScript = document.createElement('script');
+                schemaScript.type = 'application/ld+json';
+                schemaScript.textContent = JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": data.operacion === 'venta' ? "RealEstateListing" : "RentalOffer",
+                    "name": data.titulo || '',
+                    "description": data.descripcion || metaDesc,
+                    "image": window.allImages || [],
+                    "address": {
+                        "@type": "PostalAddress",
+                        "streetAddress": data.ubicacion || '',
+                        "addressLocality": region,
+                        "addressCountry": "AR"
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "price": data.precio || 0,
+                        "priceCurrency": data.moneda || "USD",
+                        "availability": data.estado === 'reservada' ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
+                    },
+                    "numberOfRooms": data.dormitorios || 0,
+                    "numberOfBathroomsTotal": data.banios || 0,
+                    "floorSize": {
+                        "@type": "QuantitativeValue",
+                        "value": data.superficie?.cubierta || 0,
+                        "unitCode": "MTK"
+                    }
+                });
+                document.head.appendChild(schemaScript);
+
+            } catch (error) {
+                console.error("Error loading property:", error);
+                document.getElementById('detail-content').innerHTML = '<p style="text-align:center;padding:60px; color:red;">Error loading property</p>';
+            }
+        });
+    </script>
+</body>
+</html>
