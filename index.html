@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
+
     <title>Bastons Paulete | Inmobiliaria en General Roca y La Plata | Compra, Venta y Alquiler</title>
     <meta name="description" content="Bastons Paulete - Segunda generación en soluciones inmobiliarias. Compra, venta y alquiler de propiedades en General Roca y La Plata. Administración profesional de consorcios con más de 20 años de experiencia.">
     <meta name="keywords" content="inmobiliaria, propiedades, casas en venta, departamentos en alquiler, General Roca, La Plata, administración de consorcios, tasaciones, inmuebles">
     <meta name="author" content="Bastons Paulete">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://bastonspaulete.com/">
-    
-    <!-- Open Graph / Facebook -->
+
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://bastonspaulete.com/">
     <meta property="og:title" content="Bastons Paulete | Inmobiliaria en General Roca y La Plata">
@@ -20,33 +18,25 @@
     <meta property="og:image" content="https://bastonspaulete.com/images/logoconnombre.jpeg">
     <meta property="og:locale" content="es_AR">
     <meta property="og:site_name" content="Bastons Paulete Inmobiliaria">
-    
-    <!-- Twitter Card -->
+
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://bastonspaulete.com/">
     <meta name="twitter:title" content="Bastons Paulete | Inmobiliaria en General Roca y La Plata">
     <meta name="twitter:description" content="Segunda generación en soluciones inmobiliarias. Compra, venta, alquiler y administración de consorcios.">
     <meta name="twitter:image" content="https://bastonspaulete.com/images/logoconnombre.jpeg">
-    
-    <!-- Favicon -->
+
     <link rel="icon" type="image/jpeg" href="images/logofondonegro.jpeg">
     <link rel="apple-touch-icon" href="images/logofondonegro.jpeg">
-    
-    <!-- Preconnect para mejorar performance -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
-    <!-- Estilos -->
+
     <link rel="stylesheet" href="style.css">
-    <!-- Fuente Libre Baskerville -->
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    
-    <!-- Schema.org Structured Data -->
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -94,20 +84,16 @@
     </script>
 </head>
 <body>
-    <!-- Logo Inicial (NO FIXED, se queda arriba) -->
     <div class="initial-logo-wrapper">
         <img src="images/logoconnombre.jpeg" id="logoInitial" alt="Bastons Paulete Inmobiliaria - Logo oficial" 
              style="width: 300px; height: 300px; object-fit: cover; border-radius: 50%; border: 2px solid var(--color-accent-gold); box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: opacity 0.5s;">
     </div>
 
-    <!-- Contenedor de Logo Fijo (Solo aparece al scrollear) -->
     <div class="logo-container" id="fixedLogoContainer" style="opacity: 1; pointer-events: auto;">
-        <!-- Logo Scroll (Visible al bajar) - TAMAÑO ESTÁNDAR -->
         <img src="images/logofondonegro.jpeg" id="logoScroll" alt="Bastons Paulete - Inmobiliaria segunda generación" class="logo-img" 
              style="position: absolute; top: 40px; left: 120px; opacity: 0; transition: opacity 0.5s;">
     </div> 
 
-    <!-- Barra de Contacto Superior -->
     <div class="contact-bar">
         <div class="contact-bar-content">
             <p>Contáctanos</p>
@@ -122,9 +108,7 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
     <header id="inicio" class="hero" role="banner" aria-label="Sección principal">
-        <!-- Carrusel de fondo -->
         <div class="hero-carousel" role="img" aria-label="Carrusel de propiedades destacadas">
             <div class="carousel-slide active">
                 <img src="images/carrousel1.jpeg" alt="Propiedad destacada en venta - Casa moderna con jardín" loading="eager">
@@ -152,17 +136,14 @@
                 <button class="hero-btn" data-action="administrar" aria-label="Servicios de administración de consorcios">Administracion de Consorcios</button>
             </div>
 
-            <!-- Panel de Búsqueda Inline (Oculto por defecto) -->
             <div class="search-panel-inline" id="searchPanel">
                 <div class="search-form-inline">
                     <p class="search-instruction">Selecciona ubicación:</p>
-                    <!-- Selector de Región -->
                     <div class="region-buttons">
                         <button class="region-btn" data-region="roca">Río Negro</button>
                         <button class="region-btn" data-region="laplata">La Plata</button>
                     </div>
 
-                    <!-- Tipo de Propiedad -->
                     <select id="propertyType" class="search-select">
                         <option value="">Tipo de Propiedad</option>
                         <option value="departamento">Departamento</option>
@@ -178,7 +159,6 @@
                         <option value="cochera">Cochera</option>
                     </select>
 
-                    <!-- Ubicación (Dinámico según región) -->
                     <select id="location" class="search-select" style="display: none;">
                         <option value="">Ubicación</option>
                     </select>
@@ -189,27 +169,20 @@
         </div>
     </header>
 
-    <!-- Sección de Propiedades -->
     <section id="propiedades" class="section properties-section">
         <div class="container">
             
-            <!-- Selector de Ubicación -->
             <div class="location-selector" id="locationSelector">
                 <button class="location-btn" data-location="roca">General Roca</button>
                 <button class="location-btn" data-location="laplata">La Plata</button>
             </div>
 
-            <!-- Grid de Propiedades -->
             <div class="properties-grid" id="propertiesGrid">
-                <!-- Las propiedades se cargarán dinámicamente desde JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Modal de Detalle de Propiedad Eliminado -->
 
-
-    <!-- Contenido Original: Gestión de Consorcios -->
     <section id="consorcios" class="section bg-light" aria-labelledby="consorcios-title">
         <div class="container">
             <h2 id="consorcios-title" class="section-title">ADMINISTRACIÓN PROFESIONAL DE CONSORCIOS</h2>
@@ -217,7 +190,6 @@
         </div>
     </section>
 
-    <!-- Servicios -->
     <section id="servicios" class="section">
         <div class="container">
             <div class="services-grid">
@@ -240,7 +212,6 @@
         </div>
     </section>
 
-    <!-- Nosotros -->
     <section id="nosotros" class="section bg-light">
         <div class="container split-container">
             <div class="text-block">
@@ -253,20 +224,17 @@
                 </ul>
             </div>
             <div class="image-block">
-                <!-- Imagen de nosotros -->
                 <img src="images/nosotros.jpeg" alt="Oficina de Bastons Paulete Inmobiliaria - Equipo profesional en General Roca y La Plata" loading="lazy">
             </div>
         </div>
     </section>
 
-    <!-- Contacto -->
     <section id="contacto" class="section">
         <div class="container">
             <h2 class="section-title">Contacto</h2>
             <p class="section-subtitle">Estamos listos para ayudarte. Selecciona tu ubicación.</p>
             
             <div class="contact-sections">
-                <!-- General Roca -->
                 <div class="contact-region">
                     <h3><i class="fas fa-map-marker-alt"></i> General Roca</h3>
                     <div class="contact-info">
@@ -288,7 +256,6 @@
                     </div>
                 </div>
 
-                <!-- La Plata -->
                 <div class="contact-region">
                     <h3><i class="fas fa-map-marker-alt"></i> La Plata</h3>
                     <div class="contact-info">
@@ -324,7 +291,6 @@
         </div>
     </footer>
 
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="script.js"></script>
 </body>

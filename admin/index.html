@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        // Fix para rutas relativas en hosting estático:
-        // Si la URL termina en "/admin" sin barra final, agregarla para que carguen bien los estilos
         if (window.location.pathname.endsWith('/admin')) {
             window.location.replace(window.location.href + '/');
         }
@@ -27,7 +25,6 @@
         </header>
 
         <div class="admin-content">
-            <!-- Sección de Login -->
             <div id="loginSection" class="login-section">
                 <div class="login-box">
                     <h2>Iniciar Sesión</h2>
@@ -45,10 +42,8 @@
                 </div>
             </div>
 
-            <!-- Sección Principal (oculta hasta login) -->
             <div id="mainSection" style="display: none;">
                 
-                <!-- Lista de Propiedades -->
                 <section class="properties-list-section">
                     <h2>Propiedades Publicadas</h2>
                     <div id="propertiesList" class="properties-list">
@@ -56,7 +51,6 @@
                     </div>
                 </section>
 
-                <!-- Formulario de Nueva Propiedad -->
                 <section class="form-section">
                     <h2 id="formTitle">Nueva Propiedad</h2>
                     <form id="propertyForm" onsubmit="saveProperty(event)">
@@ -208,7 +202,6 @@
         </div>
     </div>
 
-    <!-- Firebase -->
     <script type="module" src="./admin-script.js"></script>
 </body>
 </html>

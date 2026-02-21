@@ -1,4 +1,3 @@
-// Firebase Configuration (solo Firestore, sin Storage)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -14,14 +13,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Configuración del servidor (actualiza con tu dominio de SiteGround)
-const SERVER_URL = window.location.origin; 
-// Usamos ruta relativa para que funcione tanto en root como en subcarpetas
-// Desde /admin/index.html, subir un nivel es la raíz, luego entrar a api/
+const SERVER_URL = window.location.origin;
 const UPLOAD_API = '../api/uploader.php';
 const DELETE_API = '../api/delete-image.php';
 
-// Detectar si estamos en localhost sin soporte PHP
 if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
     console.warn("ADVERTENCIA: Estás ejecutando esto en Localhost.");
     console.warn("Si usas 'Live Server' de VS Code, la subida de imágenes NO funcionará porque no soporta PHP.");
@@ -30,7 +25,6 @@ if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'lo
 
 console.log('API Endpoints:', { UPLOAD_API, DELETE_API, location: window.location.href });
 
-// Callback para cuando Google Maps API se carga - DEBE estar en scope global
 window.initMap = function() {
     console.log('✓ Google Maps API cargada');
     if (typeof initAutocomplete === 'function') {
@@ -38,22 +32,19 @@ window.initMap = function() {
     }
 };
 
-// Credenciales de acceso
 const ADMIN_CREDENTIALS = {
     username: 'bastonspaulete',
     password: 'Bastonspaulete2025'
 };
 
-// Localidades por región
 const locationsByRegion = {
     roca: ['General Roca', 'Ingeniero Huergo', 'Regina', 'General Godoy', 'Cervantes', 'Villa Regina'],
     laplata: ['La Plata', 'Ensenada', 'Berisso', 'Gonnet', 'Tolosa']
 };
 
-// Check if logged in
 function checkAuth() {
     const isLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
-    
+
     if (isLoggedIn) {
         document.getElementById('loginSection').style.display = 'none';
         document.getElementById('mainSection').style.display = 'block';
@@ -64,34 +55,29 @@ function checkAuth() {
     }
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
 });
 
-// Initialize Google Places Autocomplete - Versión simplificada sin API (evita errores de activación)
 function initAutocomplete() {
     const addressInput = document.getElementById('address');
     const latInput = document.getElementById('lat');
     const lngInput = document.getElementById('lng');
-    
+
     if (!addressInput) {
         console.log('Esperando carga del formulario...');
         return;
     }
 
-    // Remover readonly de lat/lng para permitir edición manual
     latInput.removeAttribute('readonly');
     lngInput.removeAttribute('readonly');
     latInput.style.background = '#fff';
     lngInput.style.background = '#fff';
-    
 
-    // Agregar botón de ayuda para obtener coordenadas
     const coordHelp = document.createElement('small');
     coordHelp.style.cssText = 'color: #666; font-size: 0.85rem; display: block; margin-top: 5px;';
     coordHelp.innerHTML = '<i class="fas fa-lightbulb"></i> <a href="https://www.google.com/maps" target="_blank" style="color: #CCA352; text-decoration: underline;">Abrir Google Maps</a> para obtener coordenadas: click derecho en el mapa → copiar coordenadas';
-    
+
     if (lngInput.parentElement && !lngInput.parentElement.querySelector('.coord-help')) {
         coordHelp.classList.add('coord-help');
         lngInput.parentElement.appendChild(coordHelp);
@@ -101,7 +87,6 @@ function initAutocomplete() {
     console.log('ℹ️ Para usar autocompletado, activa Places API en Google Cloud Console');
 }
 
-// Login
 window.login = function(event) {
     event.preventDefault();
     const username = document.getElementById('loginEmail').value;
@@ -115,20 +100,18 @@ window.login = function(event) {
     }
 };
 
-// Logout
 window.logout = function() {
     sessionStorage.removeItem('adminLoggedIn');
     alert('Sesión cerrada');
     checkAuth();
 };
 
-// Update Locations based on Region
 window.updateLocations = function() {
     const region = document.getElementById('region').value;
     const locationSelect = document.getElementById('location');
-    
+
     locationSelect.innerHTML = '<option value="">Seleccionar...</option>';
-    
+
     if (region && locationsByRegion[region]) {
         locationsByRegion[region].forEach(loc => {
             const option = document.createElement('option');
@@ -139,12 +122,11 @@ window.updateLocations = function() {
     }
 };
 
-// Preview Images
 window.previewImages = function() {
     const files = document.getElementById('images').files;
     const preview = document.getElementById('imagePreview');
     preview.innerHTML = '';
-    
+
     if (files.length > 0) {
         Array.from(files).forEach((file, index) => {
             const reader = new FileReader();
@@ -162,7 +144,6 @@ window.previewImages = function() {
     }
 };
 
-// Load Properties
 async function loadProperties() {
     const propertiesList = document.getElementById('propertiesList');
     propertiesList.innerHTML = '<p class="loading"><i class="fas fa-spinner fa-spin"></i> Cargando propiedades...</p>';
@@ -170,7 +151,7 @@ async function loadProperties() {
     try {
         const q = query(collection(db, "propiedades"), orderBy("fechaCreacion", "desc"));
         const querySnapshot = await getDocs(q);
-        
+
         if (querySnapshot.empty) {
             propertiesList.innerHTML = '<p class="no-data">No hay propiedades publicadas</p>';
             return;
@@ -188,14 +169,13 @@ async function loadProperties() {
     }
 }
 
-// Create Property Card
 function createPropertyCard(id, property) {
     const div = document.createElement('div');
     div.className = 'property-card';
-    
+
     const operationType = property.operacion === 'venta' ? 'Venta' : 'Alquiler';
     const operationClass = property.operacion === 'venta' ? 'operation-sale' : 'operation-rent';
-    
+
     const isReserved = property.estado === 'reservada';
     const reservedClass = isReserved ? 'status-reserved' : '';
     const reservedText = isReserved ? 'Reservada' : 'Marcar Reservada';
@@ -203,7 +183,6 @@ function createPropertyCard(id, property) {
     const reservedBtnClass = isReserved ? 'btn-unreserve' : 'btn-reserve';
     const reservedBtnTitle = isReserved ? 'Quitar Reserva' : 'Marcar como Reservada';
 
-    // Badge visible en la card del admin si está reservada
     const reservedBadge = isReserved ? '<span class="badge badge-reserved-admin" style="background:var(--color-accent-gold); color:white; margin-left:5px;">RESERVADA</span>' : '';
 
     div.innerHTML = `
@@ -229,11 +208,10 @@ function createPropertyCard(id, property) {
             </div>
         </div>
     `;
-    
+
     return div;
 }
 
-// Toggle Reservation Status
 window.toggleReservation = async function(id, currentStatus) {
     const newStatus = currentStatus === 'reservada' ? 'disponible' : 'reservada';
     const confirmMsg = newStatus === 'reservada' ? '¿Marcar esta propiedad como RESERVADA?' : '¿Quitar la marca de RESERVADA y ponerla como disponible?';
@@ -245,7 +223,6 @@ window.toggleReservation = async function(id, currentStatus) {
             estado: newStatus,
             fechaActualizacion: new Date()
         });
-        // alert(`Propiedad marcada como ${newStatus}`);
         loadProperties();
     } catch (error) {
         console.error("Error updating status:", error);
@@ -253,14 +230,12 @@ window.toggleReservation = async function(id, currentStatus) {
     }
 };
 
-// Global array to store current images
 window.currentImages = [];
 
-// Add images incrementally
 window.addImages = function() {
     const imageFiles = document.getElementById('images').files;
     const preview = document.getElementById('imagePreview');
-    
+
     Array.from(imageFiles).forEach(file => {
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -274,18 +249,15 @@ window.addImages = function() {
         };
         reader.readAsDataURL(file);
     });
-    
-    // Clear input
+
     document.getElementById('images').value = '';
 };
 
-// Remove image from list
 window.removeImage = function(index) {
     window.currentImages.splice(index, 1);
     renderImagePreview();
 };
 
-// Render image preview
 function renderImagePreview() {
     const preview = document.getElementById('imagePreview');
     preview.innerHTML = window.currentImages.map((img, index) => `
@@ -299,67 +271,58 @@ function renderImagePreview() {
     `).join('');
 }
 
-// Save Property
 window.saveProperty = async function(event) {
     event.preventDefault();
-    
+
     const propertyId = document.getElementById('propertyId').value;
     const submitBtn = event.target.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
 
     try {
-        // Upload new images to SiteGround server
         let imageUrls = [];
-        
-        // Separate new files from existing URLs
+
         const newFiles = window.currentImages.filter(img => img.isNew && img.file).map(img => img.file);
         const existingUrls = window.currentImages.filter(img => !img.isNew).map(img => img.url);
-        
-        // Upload new files if any
+
         if (newFiles.length > 0) {
             const formData = new FormData();
             newFiles.forEach(file => {
                 formData.append('images[]', file);
             });
-            
+
             const uploadResponse = await fetch(UPLOAD_API, {
                 method: 'POST',
                 body: formData
             });
 
-            // 1. Leer SIEMPRE como texto primero para poder loguearlo
             const responseText = await uploadResponse.text();
             console.log("----- DEBUG RESPUESTA SERVIDOR -----");
             console.log("Status:", uploadResponse.status);
             console.log("Cuerpo:", responseText);
             console.log("------------------------------------");
-            
+
             if (!uploadResponse.ok) {
-                // Intento parsear error del JSON si existe
                 let errorMessage = `Error del servidor (${uploadResponse.status})`;
                 try {
                     const errorJson = JSON.parse(responseText);
                     if (errorJson.error) errorMessage = errorJson.error;
                     if (errorJson.details) errorMessage += ": " + JSON.stringify(errorJson.details);
                 } catch (e) {
-                    // Si no es JSON, usamos el texto crudo (truncado si es muy largo)
                     errorMessage += ": " + responseText.substring(0, 200);
                 }
-                
+
                 if (uploadResponse.status === 404) errorMessage = "Error 404: No se encuentra el script de subida (api/upload-images.php)";
                 if (uploadResponse.status === 405) errorMessage = "Error 405: Método no permitido (Revisar configuración de servidor/PHP)";
-                
+
                 throw new Error(errorMessage);
             }
-            
-            // 2. Si es OK, intentar parsear el éxito
+
             let uploadResult;
             try {
                 uploadResult = JSON.parse(responseText);
             } catch (e) {
                 console.error("Error de parseo JSON:", e);
-                // Si la respuesta está vacía, es un error específico
                 if (!responseText.trim()) {
                     throw new Error("El servidor respondió OK (200) pero envió una respuesta vacía. Posible error silencioso de PHP (revisar logs de error_log).");
                 }
@@ -367,22 +330,19 @@ window.saveProperty = async function(event) {
             }
 
             if (uploadResult.success && uploadResult.urls) {
-                // Convert relative URLs to absolute
                 const uploadedUrls = uploadResult.urls.map(url => `${SERVER_URL}/${url}`);
                 imageUrls = [...existingUrls, ...uploadedUrls];
             } else {
                 throw new Error('Error en la respuesta del servidor');
             }
         } else {
-            // Only existing images
             imageUrls = existingUrls;
         }
 
-        // Prepare property data
         const moneda = document.getElementById('moneda').value;
         const precio = document.getElementById('price').value;
         const currentStatus = document.getElementById('propertyStatus').value || 'disponible';
-        
+
         const propertyData = {
             titulo: document.getElementById('address').value,
             tipo: document.getElementById('type').value,
@@ -419,7 +379,6 @@ window.saveProperty = async function(event) {
             estado: currentStatus
         };
 
-        // Add images if uploaded
         if (imageUrls.length > 0) {
             propertyData.imagenes = {
                 principal: imageUrls[0],
@@ -427,16 +386,13 @@ window.saveProperty = async function(event) {
             };
         }
 
-        // Save or update
         if (propertyId) {
-            // Update existing
             await updateDoc(doc(db, "propiedades", propertyId), {
                 ...propertyData,
                 fechaActualizacion: new Date()
             });
             alert('Propiedad actualizada exitosamente');
         } else {
-            // Create new
             await addDoc(collection(db, "propiedades"), {
                 ...propertyData,
                 fechaCreacion: new Date()
@@ -455,12 +411,11 @@ window.saveProperty = async function(event) {
     }
 };
 
-// Edit Property
 window.editProperty = async function(id) {
     try {
         const docSnap = await getDocs(query(collection(db, "propiedades")));
         let property = null;
-        
+
         docSnap.forEach((doc) => {
             if (doc.id === id) {
                 property = doc.data();
@@ -470,15 +425,15 @@ window.editProperty = async function(id) {
         if (!property) return;
 
         document.getElementById('propertyId').value = id;
-        document.getElementById('propertyStatus').value = property.estado || 'disponible'; // Cargar estado
+        document.getElementById('propertyStatus').value = property.estado || 'disponible';
         document.getElementById('formTitle').textContent = 'Editar Propiedad';
         document.getElementById('address').value = property.titulo || '';
         document.getElementById('type').value = property.tipo || '';
         document.getElementById('operationType').value = property.operacion || '';
         document.getElementById('region').value = property.region || '';
-        
+
         updateLocations();
-        
+
         document.getElementById('location').value = property.ubicacion || '';
         document.getElementById('moneda').value = property.moneda || 'USD';
         document.getElementById('price').value = property.precio || '';
@@ -490,8 +445,7 @@ window.editProperty = async function(id) {
         document.getElementById('lat').value = property.lat || '';
         document.getElementById('lng').value = property.lng || '';
         document.getElementById('description').value = property.descripcion || '';
-        
-        // Load existing images
+
         window.currentImages = [];
         if (property.imagenes) {
             if (property.imagenes.principal) {
@@ -505,7 +459,6 @@ window.editProperty = async function(id) {
         }
         renderImagePreview();
 
-        // Características
         if (property.caracteristicas) {
             document.getElementById('aguaCorriente').checked = property.caracteristicas.aguaCorriente || false;
             document.getElementById('luzElectrica').checked = property.caracteristicas.luzElectrica || false;
@@ -527,22 +480,19 @@ window.editProperty = async function(id) {
     }
 };
 
-// Delete Property
 window.deleteProperty = async function(id) {
     if (!confirm('¿Está seguro de que desea eliminar esta propiedad?')) return;
 
     try {
-        // Obtener la propiedad para eliminar sus imágenes
         const docSnap = await getDocs(query(collection(db, "propiedades")));
         let property = null;
-        
+
         docSnap.forEach((doc) => {
             if (doc.id === id) {
                 property = doc.data();
             }
         });
 
-        // Eliminar imágenes del servidor
         if (property && property.imagenes && property.imagenes.galeria) {
             for (const imageUrl of property.imagenes.galeria) {
                 try {
@@ -555,12 +505,10 @@ window.deleteProperty = async function(id) {
                     });
                 } catch (imgError) {
                     console.warn('Error al eliminar imagen:', imgError);
-                    // Continuar aunque falle la eliminación de imagen
                 }
             }
         }
 
-        // Eliminar documento de Firestore
         await deleteDoc(doc(db, "propiedades", id));
         alert('Propiedad eliminada exitosamente');
         loadProperties();
@@ -570,7 +518,6 @@ window.deleteProperty = async function(id) {
     }
 };
 
-// Reset Form
 window.resetForm = function() {
     window.currentImages = [];
     renderImagePreview();

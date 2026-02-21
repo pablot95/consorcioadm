@@ -24,7 +24,6 @@ body {
     min-height: 100vh;
 }
 
-/* Header */
 .admin-header {
     background: var(--primary-color);
     color: white;
@@ -82,7 +81,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Login Section */
 .login-section {
     display: flex;
     justify-content: center;
@@ -105,14 +103,12 @@ body {
     color: var(--primary-color);
 }
 
-/* Main Content */
 .admin-content {
     padding: 2rem;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-/* Properties List Section */
 .properties-list-section {
     background: white;
     padding: 2rem;
@@ -231,7 +227,6 @@ body {
     background: #d32f2f;
 }
 
-/* Form Section */
 .form-section {
     background: white;
     padding: 2rem;
@@ -290,7 +285,6 @@ body {
     font-size: 0.85rem;
 }
 
-/* Image Preview */
 .image-preview {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -360,7 +354,6 @@ body {
     text-align: center;
 }
 
-/* Características */
 .caracteristicas-section {
     margin: 2rem 0;
     padding: 1.5rem;
@@ -393,7 +386,6 @@ body {
     cursor: pointer;
 }
 
-/* Form Actions */
 .form-actions {
     display: flex;
     gap: 1rem;
@@ -439,7 +431,6 @@ body {
     background: #d0d0d0;
 }
 
-/* Loading & Messages */
 .loading, .no-data, .error {
     text-align: center;
     padding: 3rem;
@@ -452,29 +443,28 @@ body {
     color: var(--danger);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .admin-header {
         flex-direction: column;
         gap: 1rem;
     }
-    
+
     .form-row {
         grid-template-columns: 1fr;
     }
-    
+
     .properties-list {
         grid-template-columns: 1fr;
     }
-    
+
     .checkbox-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .form-actions {
         flex-direction: column-reverse;
     }
-    
+
     .btn-primary, .btn-secondary {
         width: 100%;
     }

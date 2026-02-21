@@ -1,4 +1,3 @@
-// === FIREBASE CONFIG ===
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
@@ -14,26 +13,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// === VARIABLES GLOBALES ===
 const propertiesData = { roca: [], laplata: [] };
 let currentRegion = 'roca';
 
-// === FORMATEAR PRECIO ===
 function formatPrice(precio, moneda = 'USD') {
     const symbol = moneda === 'ARS' ? 'ARS $' : 'USD $';
     return `${symbol} ${precio}`;
 }
 
-// === CARGAR PROPIEDADES DESDE FIREBASE ===
 async function loadProperties() {
     try {
         console.log('Cargando propiedades...');
         const snapshot = await getDocs(collection(db, "propiedades"));
-        
+
         snapshot.forEach((doc) => {
             const d = doc.data();
             if (!d.titulo) return;
-            
+
             const prop = {
                 id: doc.id,
                 address: d.titulo,
@@ -55,33 +51,32 @@ async function loadProperties() {
                 coordinates: { lat: d.lat || -39.0333, lng: d.lng || -67.5833 },
                 status: d.estado || 'disponible'
             };
-            
+
             if (prop.region === 'roca') propertiesData.roca.push(prop);
             else propertiesData.laplata.push(prop);
         });
-        
+
         console.log(`✓ Cargadas: ${propertiesData.roca.length} Roca, ${propertiesData.laplata.length} La Plata`);
     } catch (err) {
         console.error('Error cargando Firebase:', err);
     }
 }
 
-// === CREAR TARJETA ===
 function createCard(prop) {
     const card = document.createElement('div');
     card.className = 'property-card';
-    card.dataset.propertyId = prop.id; 
-    
+    card.dataset.propertyId = prop.id;
+
     let opText = prop.operationType === 'venta' ? 'en Venta' : 'en Alquiler';
     let opClass = prop.operationType === 'venta' ? 'operation-sale' : 'operation-rent';
-    
+
     if (prop.status === 'reservada') {
         opText = 'RESERVADA';
         opClass = 'operation-reserved';
     }
 
     const price = formatPrice(prop.price, prop.moneda);
-    
+
     card.innerHTML = `
         <img src="${prop.image}" alt="${prop.address}" class="property-image" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Error'">
         <div class="property-badge ${opClass}">${prop.status === 'reservada' ? 'RESERVADA' : prop.type + ' ' + opText}</div>
@@ -96,55 +91,48 @@ function createCard(prop) {
             <div class="property-price">${price}</div>
         </div>
     `;
-    
+
     return card;
 }
 
-// === MOSTRAR PROPIEDADES ===
-let currentProperties = []; // Guardar referencia a propiedades actuales
+let currentProperties = [];
 
 function displayProperties(region = null) {
     const grid = document.getElementById('propertiesGrid');
     if (!grid) return;
-    
-    // Limpiar completamente el grid
+
     while (grid.firstChild) {
         grid.removeChild(grid.firstChild);
     }
-    
+
     let props = [];
-    
+
     if (region) {
         props = propertiesData[region] || [];
     } else {
-        // Mostrar 8 propiedades aleatorias de ambas regiones
         const allProps = [...propertiesData.roca, ...propertiesData.laplata];
         props = allProps.sort(() => Math.random() - 0.5).slice(0, 8);
     }
-    
+
     if (props.length === 0) {
         grid.innerHTML = '<p style="text-align:center;grid-column:1/-1;padding:40px;">No hay propiedades disponibles</p>';
         return;
     }
-    
-    currentProperties = props; // Guardar referencia
+
+    currentProperties = props;
     props.forEach(prop => grid.appendChild(createCard(prop)));
 }
 
-// === MODAL ELIMINADO - REDIRECCIÓN DIRECTA A DETALLE ===
 function openModal(prop) {
-    // Redirigir directamente a la página de detalles
     window.location.href = `property-detail.html?id=${prop.id}`;
 }
 
-// Función obsoleta - Mantenida vacía por seguridad
 window.closeModal = function() {};
 
-// === CARRUSEL ===
 function initCarousel() {
     const slides = document.querySelectorAll('.carousel-slide');
     if (slides.length === 0) return;
-    
+
     let current = 0;
     setInterval(() => {
         slides[current].classList.remove('active');
@@ -153,25 +141,24 @@ function initCarousel() {
     }, 5000);
 }
 
-// === HERO BUTTONS ===
 function initHeroButtons() {
     const heroButtons = document.querySelectorAll('.hero-btn');
     const searchPanel = document.getElementById('searchPanel');
     const regionButtons = document.querySelectorAll('.region-btn');
     const locationSelect = document.getElementById('location');
     const btnSearch = document.getElementById('btnSearch');
-    
+
     const locationsByRegion = {
         roca: ['General Roca', 'Ingeniero Huergo', 'Regina', 'General Godoy', 'Cervantes', 'Allen'],
         laplata: ['La Plata', 'Ensenada', 'Berisso', 'Gonnet', 'Tolosa']
     };
-    
+
     let currentFilters = {};
-    
+
     heroButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const action = btn.dataset.action;
-            
+
             if (action === 'alquilar' || action === 'comprar') {
                 heroButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
@@ -186,18 +173,18 @@ function initHeroButtons() {
             }
         });
     });
-    
+
     regionButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             regionButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             const region = btn.dataset.region;
             currentFilters.region = region;
-            
+
             locationSelect.style.display = 'block';
             locationSelect.innerHTML = '<option value="">Todas las ubicaciones</option>';
-            
+
             locationsByRegion[region].forEach(loc => {
                 const option = document.createElement('option');
                 option.value = loc;
@@ -206,31 +193,31 @@ function initHeroButtons() {
             });
         });
     });
-    
+
     document.getElementById('propertyType').addEventListener('change', (e) => {
         currentFilters.propertyType = e.target.value;
     });
-    
+
     locationSelect.addEventListener('change', (e) => {
         currentFilters.location = e.target.value;
     });
-    
+
     btnSearch.addEventListener('click', () => {
         if (!currentFilters.region) {
             alert('Por favor selecciona una región');
             return;
         }
-        
+
         let props = propertiesData[currentFilters.region] || [];
-        
+
         if (currentFilters.propertyType) {
             props = props.filter(p => p.type.toLowerCase() === currentFilters.propertyType.toLowerCase());
         }
-        
+
         if (currentFilters.location) {
             props = props.filter(p => p.location === currentFilters.location);
         }
-        
+
         const grid = document.getElementById('propertiesGrid');
         if (grid) {
             grid.innerHTML = '';
@@ -245,7 +232,6 @@ function initHeroButtons() {
     });
 }
 
-// === BOTONES UBICACIÓN ===
 function initLocationButtons() {
     const buttons = document.querySelectorAll('.location-btn');
     buttons.forEach(btn => {
@@ -258,7 +244,6 @@ function initLocationButtons() {
     });
 }
 
-// === ANIMACIONES SCROLL ===
 function initScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -267,19 +252,17 @@ function initScrollAnimations() {
             }
         });
     }, { threshold: 0.1 });
-    
+
     document.querySelectorAll('.property-card, .feature-card').forEach(el => observer.observe(el));
 }
 
-// === INICIO ===
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Iniciando...');
-    
+
     initCarousel();
     initHeroButtons();
     initLocationButtons();
-    
-    // Event delegation para clicks en tarjetas de propiedades
+
     const grid = document.getElementById('propertiesGrid');
     if (grid) {
         grid.addEventListener('click', (e) => {
@@ -291,30 +274,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
-    
+
     await loadProperties();
-    
-    // Mostrar 8 propiedades aleatorias (sin región específica)
+
     displayProperties();
     initScrollAnimations();
-    
-    // === LOGICA LOGO FIJO AL SCROLL ===
-    // logoInitial es ABSOLUTE (se va con el scroll visualmente)
-    // logoScroll es FIXED (aparece al bajar)
+
     const logoInitial = document.getElementById('logoInitial');
     const logoScroll = document.getElementById('logoScroll');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
-           // Scroll: El inicial se desvanece (opcional, ya se fue para arriba) y aparece el fijo
            if(logoInitial) logoInitial.style.opacity = '0';
            if(logoScroll) logoScroll.style.opacity = '1';
         } else {
-           // Top: El inicial es totalmente visible, el fijo invisible
            if(logoInitial) logoInitial.style.opacity = '1';
            if(logoScroll) logoScroll.style.opacity = '0';
         }
     });
-    
+
     console.log('✓ Aplicación lista');
 });

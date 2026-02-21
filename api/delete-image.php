@@ -4,60 +4,46 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Manejar preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
-    exit();
+    exit;
 }
 
-// Solo permitir POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Método no permitido']);
-    exit();
+    echo json_encode(['success' => false, 'error' => 'Método no permitido']);
+    exit;
 }
 
-// Obtener datos JSON
-$json = file_get_contents('php://input');
-$data = json_decode($json, true);
+$input = json_decode(file_get_contents('php://input'), true);
 
-if (!isset($data['imageUrl']) || empty($data['imageUrl'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'URL de imagen no proporcionada']);
-    exit();
+if (!$input || !isset($input['filename'])) {
+    echo json_encode(['success' => false, 'error' => 'Datos inválidos']);
+    exit;
 }
 
-$imageUrl = $data['imageUrl'];
+$filename = basename($input['filename']);
+$uploadDir = realpath(__DIR__ . '/../uploads/properties/');
+$filepath = $uploadDir . '/' . $filename;
 
-// Extraer el path del archivo (solo si es del servidor)
-if (strpos($imageUrl, 'uploads/properties/') !== false) {
-    // Construir path completo
-    $filename = basename($imageUrl);
-    $filepath = '../uploads/properties/' . $filename;
+if (!$uploadDir) {
+    echo json_encode(['success' => false, 'error' => 'Directorio de uploads no encontrado']);
+    exit;
+}
 
-    // Verificar que el archivo existe
-    if (file_exists($filepath)) {
-        // Eliminar archivo
-        if (unlink($filepath)) {
-            http_response_code(200);
-            echo json_encode([
-                'success' => true,
-                'message' => 'Imagen eliminada correctamente'
-            ]);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Error al eliminar el archivo']);
-        }
-    } else {
-        http_response_code(404);
-        echo json_encode(['error' => 'Archivo no encontrado']);
-    }
+$realFilePath = realpath($filepath);
+if ($realFilePath === false || strpos($realFilePath, $uploadDir) !== 0) {
+    echo json_encode(['success' => false, 'error' => 'Ruta de archivo inválida']);
+    exit;
+}
+
+if (!file_exists($filepath)) {
+    echo json_encode(['success' => false, 'error' => 'Archivo no encontrado: ' . $filename]);
+    exit;
+}
+
+if (unlink($filepath)) {
+    echo json_encode(['success' => true, 'message' => 'Imagen eliminada: ' . $filename]);
 } else {
-    // No es una imagen del servidor, no hacer nada (puede ser URL externa o antigua de Firebase)
-    http_response_code(200);
-    echo json_encode([
-        'success' => true,
-        'message' => 'URL externa, no se eliminó del servidor'
-    ]);
+    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar el archivo']);
 }
 ?>

@@ -1,63 +1,48 @@
 <?php
-// Asegurar buffer de salida para limpiar cualquier caracter basura previo
-ob_start();
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Content-Type: application/json; charset=utf-8');
-
-// Manejo de Preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    ob_end_clean();
     http_response_code(200);
-    echo json_encode(['status' => 'ok']);
     exit;
 }
 
-$targetDir = '../uploads/properties/';
-if (!file_exists($targetDir)) {
+$targetDir = "../uploads/properties/";
+if (!is_dir($targetDir)) {
     mkdir($targetDir, 0755, true);
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $uploadedUrls = [];
-    $errors = [];
+if (!isset($_FILES['image'])) {
+    echo json_encode(["success" => false, "error" => "No se recibió ninguna imagen."]);
+    exit;
+}
 
-    if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
-        $files = $_FILES['images'];
-        $count = count($files['name']);
+$file = $_FILES['image'];
+$originalName = basename($file['name']);
+$ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+$allowed = ['jpg','jpeg','png','gif','webp','avif'];
 
-        for ($i = 0; $i < $count; $i++) {
-            if ($files['error'][$i] === UPLOAD_ERR_OK) {
-                $ext = pathinfo($files['name'][$i], PATHINFO_EXTENSION);
-                $name = time() . '_' . mt_rand(1000, 9999) . '.' . $ext;
-                $target = $targetDir . $name;
-                
-                if (move_uploaded_file($files['tmp_name'][$i], $target)) {
-                    $uploadedUrls[] = 'uploads/properties/' . $name;
-                } else {
-                    $errors[] = "Error moviendo el archivo " . $files['name'][$i];
-                }
-            } else {
-                $errors[] = "Error de subida PHP: " . $files['error'][$i];
-            }
-        }
-    } else {
-        $errors[] = "No se recibieron archivos";
-    }
+if (!in_array($ext, $allowed)) {
+    echo json_encode(["success" => false, "error" => "Tipo de archivo no permitido: .$ext"]);
+    exit;
+}
 
-    // Limpiar buffer y enviar JSON limpio
-    ob_end_clean();
-    
-    if (!empty($uploadedUrls)) {
-        echo json_encode(['success' => true, 'urls' => $uploadedUrls]);
-    } else {
-        http_response_code(400); // Bad Request
-        echo json_encode(['error' => 'No se pudieron subir imagenes', 'details' => $errors]);
-    }
+$uniqueName = uniqid("prop_") . "." . $ext;
+$targetPath = $targetDir . $uniqueName;
+
+if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+    $host = $_SERVER['HTTP_HOST'];
+    $basePath = dirname(dirname($_SERVER['SCRIPT_NAME']));
+    $publicUrl = $protocol . "://" . $host . $basePath . "/uploads/properties/" . $uniqueName;
+
+    echo json_encode([
+        "success" => true,
+        "url" => $publicUrl,
+        "filename" => $uniqueName
+    ]);
 } else {
-    ob_end_clean();
-    http_response_code(405);
-    echo json_encode(['error' => 'Method Not Allowed']);
+    echo json_encode(["success" => false, "error" => "Error al mover el archivo."]);
 }
 ?>
